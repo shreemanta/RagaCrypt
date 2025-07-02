@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <div>
-      <footer class="bg-dark text-white pt-4 pb-3 mt-5">
+      <footer class="bg-dark text-white pt-4 pb-3 ">
         <div class="container text-center">
           <h5>RagaCrypt</h5>
           <p>
