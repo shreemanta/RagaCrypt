@@ -2,8 +2,11 @@ import React from "react";
 
 function Footer() {
   return (
+
     <div className="main">
       <footer class="bg-dark text-white pt-4 pb-3">
+    <div>
+      <footer class="bg-dark text-white pt-4 pb-3 ">
         <div class="container text-center">
           <h5>RagaCrypt</h5>
           <p>
