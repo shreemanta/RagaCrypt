@@ -3,7 +3,7 @@ import Logo from "../assets/Logo.png";
 
 function Navbar() {
   return (
-    <div>
+    <div className="main">
       <nav className="navbar navbar-expand-md navbar-dark bg-dark sticky-top custom-navbar">
         <div className="container-fluid px-4">
           <a className="navbar-brand d-flex align-items-center" href="/">
