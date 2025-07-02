@@ -1,0 +1,34 @@
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* make html/body/root full‑screen */
+html, body, #root {
+  width: 100%;
+}
+
+/* your desired background and text styles */
+body {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.custom-navbar {
+  width: 100%;
+  max-width: 100%; /* Can be 1400px or 90vw if you want a fixed max */
+  height: 4rem;
+}
+
+.title{
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: Saira Stencil One;
+}
