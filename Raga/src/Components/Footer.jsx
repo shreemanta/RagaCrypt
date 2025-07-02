@@ -26,7 +26,7 @@ function Footer() {
             >
               <i class="bi bi-linkedin fs-4"></i>
             </a>
-            <a href="mailto:shreemantachauhan@email.com" class="text-white">
+            <a href="mailto:mahiacharya04@email.com" class="text-white">
               <i class="bi bi-envelope-fill fs-4"></i>
             </a>
           </div>
