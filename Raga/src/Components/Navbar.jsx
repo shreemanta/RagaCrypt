@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../assets/Logo.png"
+import Logo from "../assets/Logo.png";
 
 function Navbar() {
   return (
@@ -8,13 +8,17 @@ function Navbar() {
         <div className="container-fluid px-4">
           <a className="navbar-brand d-flex align-items-center" href="/">
             <img
-              src={Logo} 
+              src={Logo}
               alt="Logo"
               width="50"
               height="50"
               className="rounded-circle me-2"
             />
-            <span className="title">रागाCrypt</span>
+            <span className="title">
+              <a className="nav-link" href="/">
+                रागाCrypt
+              </a>
+            </span>
           </a>
 
           <button
@@ -31,7 +35,7 @@ function Navbar() {
 
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
-                <li className="nav-item">
+              <li className="nav-item">
                 <a className="nav-link" href="/">
                   Home
                 </a>
@@ -53,7 +57,15 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/profile">
-                  <img id="userPhoto" src="" alt="User" class="rounded-circle" width="40" height="40"/>
+                  <img
+                    src={`https://api.dicebear.com/8.x/pixel-art/svg?seed=${Math.floor(
+                      Math.random() * 1000
+                    )}`}
+                    alt="User"
+                    className="rounded-circle"
+                    width="40"
+                    height="40"
+                  />
                 </a>
               </li>
             </ul>

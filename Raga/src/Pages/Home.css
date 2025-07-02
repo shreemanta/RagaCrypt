@@ -1,0 +1,22 @@
+.parent{
+    width: 100%;
+    height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.HeadMaster{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+.wel{
+    font-size: 5rem;
+    font-family: cursive;
+}
+.slogan{
+    font-size: 2rem;
+    font-family: cursive;
+}
