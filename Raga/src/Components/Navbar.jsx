@@ -15,9 +15,9 @@ function Navbar() {
               className="rounded-circle me-2"
             />
             <span className="title">
-              <a className="nav-link" href="/">
+              <span className="nav-link" href="/">
                 रागाCrypt
-              </a>
+              </span>
             </span>
           </a>
 

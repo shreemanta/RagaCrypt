@@ -1,4 +1,4 @@
-.parent{
+/* .parent{
     width: 100%;
     
     display:flex;
@@ -9,7 +9,7 @@
 
 }
 .HeadMaster{
-    height: 100vh;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,4 +29,126 @@
     width: 50rem;
     font-size: 2rem;
     
+}
+ */
+.parent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.HeadMaster {
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+}
+
+.wel {
+  font-size: 5rem;
+  font-family: cursive;
+}
+
+.slogan {
+  font-size: 2rem;
+  font-family: cursive;
+}
+
+.content {
+  width: 50rem;
+  font-size: 2rem;
+}
+
+/* Card Styles */
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 3rem 0;
+}
+
+.cipher-card {
+  width: 300px;
+  padding: 24px;
+  background: #121212;
+  color: #e0e0e0;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  word-break: break-word;
+  border-left: 4px solid transparent;
+}
+
+.cipher-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.cipher-card p {
+  font-size: 1rem;
+  text-align: justify;
+  line-height: 1.6;
+  color: #cfcfcf;
+}
+
+/* Specific Colors */
+.encrypt {
+  border-left: 4px solid #00ffc6;
+}
+.decrypt {
+  border-left: 4px solid #ff4e8a;
+}
+
+/* Scroll animation */
+.cipher-card.hidden {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.cipher-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.info-section {
+  background: #1b1b1b;
+  color: #e0e0e0;
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 900px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+}
+
+.info-section h2,
+.info-section h3,
+.info-section h4 {
+  color: #00ffc6;
+  margin-bottom: 1rem;
+}
+
+.info-section p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.info-section ul {
+  list-style: disc;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.info-section li {
+  margin-bottom: 0.5rem;
 }
