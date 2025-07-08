@@ -11,7 +11,7 @@ function Navbar() {
               src={Logo}
               alt="Logo"
               width="50"
-              height="50"
+              height="50" 
               className="rounded-circle me-2"
             />
             <span className="title">
