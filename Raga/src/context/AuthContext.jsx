@@ -1,24 +1,24 @@
 // src/context/AuthContext.jsx
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // use null to delay route check
 
   useEffect(() => {
-    const storedLogin = localStorage.getItem('loggedIn');
-    setIsLoggedIn(storedLogin === 'true');
+    const storedLogin = localStorage.getItem("loggedIn");
+    setIsLoggedIn(storedLogin === "true");
   }, []);
 
   const login = () => {
+    localStorage.setItem("loggedIn", "true");
     setIsLoggedIn(true);
-    localStorage.setItem('loggedIn', 'true');
   };
 
   const logout = () => {
+    localStorage.removeItem("loggedIn");
     setIsLoggedIn(false);
-    localStorage.removeItem('loggedIn');
   };
 
   return (

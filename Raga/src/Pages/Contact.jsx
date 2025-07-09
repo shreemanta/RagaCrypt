@@ -5,8 +5,15 @@ function Contact() {
     <div className="main">
       <div className="parent">
         <section className="contact-hero">
-          <h1>📬 Contact Us</h1>
+          <h1 className="typewriter">📬 Contact Us</h1>
           <p>Have a question or feedback? We'd love to hear from you!</p>
+          <div className="gif-wrap">
+            <img
+              src="https://media.giphy.com/media/mGVvZqGoiyegKg5R9t/giphy.gif"
+              alt="Encryption animation"
+              className="contact-gif"
+            />
+          </div>
         </section>
 
         <section className="contact-content">

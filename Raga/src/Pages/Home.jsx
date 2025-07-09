@@ -73,7 +73,15 @@ function Home() {
       <div className="parent">
         <div className="HeadMaster">
           <h1 className="wel">Welcome to रागाCrypt</h1>
-          <span className="slogan">Explore Cipher , Experience Security</span>
+          <div className="typewriter">Explore Cipher, Experience Security</div>
+          <div className="gif-container">
+            <img
+              src="https://media.giphy.com/media/RbDKaczqWovIugyJmW/giphy.gif"
+              alt="binary transformation"
+              className="enc-gif"
+            />
+          </div>
+
           <div className="content">
             <p>
               Step into the world of cryptic codes and powerful algorithms. From

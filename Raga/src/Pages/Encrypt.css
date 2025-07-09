@@ -1,0 +1,157 @@
+/* Encrypt.css */
+
+.encrypt-main {
+  padding: 2rem;
+  background-color: #0d0d0d;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.encrypt-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.encrypt-title {
+  font-size: 3rem;
+  color: #00ffc6;
+  margin-bottom: 1rem;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+.encrypt-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+  animation: fadeInUp 1.2s ease-in-out;
+}
+
+.encrypt-gif {
+  width: 300px;
+  max-width: 80%;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 255, 198, 0.2);
+  animation: fadeInZoom 1.5s ease-in-out;
+}
+
+.encrypt-info,
+.encrypt-working {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 3rem;
+  box-shadow: 0 0 12px rgba(0, 255, 198, 0.05);
+}
+
+.encrypt-info h2,
+.encrypt-working h2 {
+  color: #00ffc6;
+  margin-bottom: 1rem;
+}
+
+.encrypt-info ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.encrypt-info li::before {
+  content: "🔹 ";
+}
+
+.encrypt-info li {
+  margin-bottom: 0.5rem;
+}
+
+.cipher-table {
+  margin-bottom: 3rem;
+}
+
+.cipher-table h2 {
+  text-align: center;
+  color: #00ffc6;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #00ffc6;
+  color: #000;
+}
+
+td, th {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+
+tr:hover {
+  background-color: rgba(0, 255, 198, 0.1);
+}
+
+a {
+  color: #00ffc6;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #fff;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInZoom {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .encrypt-title {
+    font-size: 2rem;
+  }
+
+  .encrypt-gif {
+    width: 90%;
+  }
+
+  table td, table th {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+}
