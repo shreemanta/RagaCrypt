@@ -177,3 +177,62 @@
 .next-link:hover {
   color: #00e6b0;
 }
+/* Background Zoom Animation */
+@keyframes zoomIn {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* Fade-in Animation for Content */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animations */
+.cipher-bg {
+  animation: zoomIn 10s ease-in-out infinite alternate;
+  transition: transform 1s ease-in-out;
+}
+
+.cipher-content {
+  animation: fadeInUp 0.8s ease forwards;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Add smooth transition to buttons and inputs */
+.cipher-form input,
+.cipher-form button,
+.matrix-inputs input {
+  transition: all 0.3s ease;
+}
+
+.cipher-form input:focus,
+.matrix-inputs input:focus {
+  outline: 2px solid #00ffc6;
+  background-color: #2a2a2a;
+}
+
+.cipher-form button:hover {
+  background-color: #00e6b0;
+  transform: scale(1.05);
+}
+
+/* Link transition */
+.next-link {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.next-link:hover {
+  color: #fff;
+  transform: translateX(5px);
+}

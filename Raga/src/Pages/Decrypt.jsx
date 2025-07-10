@@ -61,8 +61,18 @@ const Decrypt = () => {
             </tr>
             <tr>
               <td>Monoalphabetic</td>
-              <td>Each letter replaced by a known mapping</td>
+              <td>Reverses letter-pair rules using the same grid to get back the original message.</td>
               <td><Link to="/decrypt/monoalphabetic">Decrypt Monoalphabetic</Link></td>
+            </tr>
+            <tr>
+              <td>Playfair</td>
+              <td>Each letter replaced by a known mapping</td>
+              <td><Link to="/decrypt/playfair">Decrypt Playfair</Link></td>
+            </tr>
+            <tr>
+              <td>Hill</td>
+              <td>Uses the inverse of the key matrix to recover the plaintext from ciphertext.</td>
+              <td><Link to="/decrypt/hill">Decrypt Hill</Link></td>
             </tr>
           </tbody>
         </table>
