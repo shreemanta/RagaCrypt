@@ -1,0 +1,116 @@
+.cipher-page {
+  position: relative;
+  width: 100%;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cipher-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  z-index: -2;
+}
+.cipher-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black with 0.4 opacity */
+  z-index: -1;
+}
+
+.cipher-content {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 700px;
+  width: 100%;
+  z-index: 2;
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 20px rgba(0, 255, 198, 0.2);
+}
+
+.cipher-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cipher-form input,
+.cipher-form button {
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.cipher-form input {
+  background-color: #1f1f1f;
+  color: #fff;
+}
+
+.cipher-form button {
+  background-color: #00ffc6;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.output-section {
+  margin-top: 2rem;
+}
+
+.output-box {
+  background-color: #111;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: #00ffc6;
+  word-break: break-word;
+}
+
+.explanation {
+  margin-top: 2rem;
+}
+
+.explanation code {
+  background: #222;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+.next-technique {
+  margin-top: 2rem;
+  text-align: right;
+  z-index: 2;
+  position: relative;
+}
+
+.next-link {
+  color: #00ffc6;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.next-link:hover {
+  color: white;
+}
+.matrix-inputs input {
+  background-color: #1f1f1f;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 5px;
+  text-align: center;
+}

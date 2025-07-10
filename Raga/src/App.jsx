@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import './index.css'
+import "./index.css";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
@@ -11,6 +11,19 @@ import Profile from "./Pages/Profile";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ProtectedRoute from "./Components/ProtectedRoute";
+// Encryption Techniques
+import CaesarEncrypt from "./EncryptTech/CaeserEncrypt";
+import VigenereEncrypt from "./EncryptTech/VigenereEncrypt";
+import RailFenceEncrypt from "./EncryptTech/RailFenceEncrypt";
+import MonoalphabeticEncrypt from "./EncryptTech/MonoAlphabeticEncrypt";
+import PlayfairEncrypt from "./EncryptTech/PlayFairEncrypt";
+import HillEncrypt from "./EncryptTech/HillEncrypt";
+
+// // Decryption Techniques
+// import CaesarDecrypt from "./DecryptTech/CaesarDecrypt";
+// import VigenereDecrypt from "./DecryptTech/VigenereDecrypt";
+// import RailFenceDecrypt from "./DecryptTech/RailFenceDecrypt";
+// import MonoalphabeticDecrypt from "./DecryptTech/MonoalphabeticDecrypt";
 
 function App() {
   return (
@@ -51,6 +64,55 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/caesar"
+          element={
+            <ProtectedRoute>
+              <CaesarEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/vigenere"
+          element={
+            <ProtectedRoute>
+              <VigenereEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/railfence"
+          element={
+            <ProtectedRoute>
+              <RailFenceEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/monoalphabetic"
+          element={
+            <ProtectedRoute>
+              <MonoalphabeticEncrypt />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/encrypt/playfair"
+          element={
+            <ProtectedRoute>
+              <PlayfairEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/hill"
+          element={
+            <ProtectedRoute>
+              <HillEncrypt />
             </ProtectedRoute>
           }
         />
