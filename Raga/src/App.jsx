@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import './index.css'
+import RegistrationForm from "./Pages/RegistrationForm";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
@@ -15,6 +16,10 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 function App() {
   return (
     <>
+     <div>
+      <h1>Registation</h1>
+      <RegistrationForm />
+    </div>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -59,5 +64,4 @@ function App() {
     </>
   );
 }
-
 export default App;
