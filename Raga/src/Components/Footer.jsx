@@ -13,9 +13,15 @@ function Footer() {
             </p>
 
             <div className="mb-3">
-              <a href="" className="text-white me-3" target="_blank">
+              <a
+                href="https://github.com/shreemanta"
+                className="text-white me-3"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <i className="bi bi-github fs-4"></i>
               </a>
+
               <a
                 href="https://linkedin.com/in/shrimanta-chauhan-70a62126a/"
                 className="text-white me-3"
