@@ -19,11 +19,13 @@ import MonoalphabeticEncrypt from "./EncryptTech/MonoAlphabeticEncrypt";
 import PlayfairEncrypt from "./EncryptTech/PlayFairEncrypt";
 import HillEncrypt from "./EncryptTech/HillEncrypt";
 
-// // Decryption Techniques
-// import CaesarDecrypt from "./DecryptTech/CaesarDecrypt";
-// import VigenereDecrypt from "./DecryptTech/VigenereDecrypt";
-// import RailFenceDecrypt from "./DecryptTech/RailFenceDecrypt";
-// import MonoalphabeticDecrypt from "./DecryptTech/MonoalphabeticDecrypt";
+// Decryption Techniques
+import CaesarDecrypt from "./DecryptTech/CaesarDecrypt";
+import VigenereDecrypt from "./DecryptTech/VigenereDecrypt";
+import RailFenceDecrypt from "./DecryptTech/RailFenceDecrypt";
+import MonoalphabeticDecrypt from "./DecryptTech/MonoAlphabeticDecrypt";
+import PlayfairDecrypt from "./DecryptTech/PlayfairDecrypt";
+import HillDecrypt from "./DecryptTech/HillDecrypt";
 
 function App() {
   return (
@@ -113,6 +115,56 @@ function App() {
           element={
             <ProtectedRoute>
               <HillEncrypt />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/decrypt/caesar"
+          element={
+            <ProtectedRoute>
+              <CaesarDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/vigenere"
+          element={
+            <ProtectedRoute>
+              <VigenereDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/railfence"
+          element={
+            <ProtectedRoute>
+              <RailFenceDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/monoalphabetic"
+          element={
+            <ProtectedRoute>
+              <MonoalphabeticDecrypt />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/decrypt/playfair"
+          element={
+            <ProtectedRoute>
+              <PlayfairDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/hill"
+          element={
+            <ProtectedRoute>
+              <HillDecrypt />
             </ProtectedRoute>
           }
         />
