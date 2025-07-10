@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import bgImg from "../assets/loginbg.jpg";
 
 function Login() {
   const { login } = useAuth();
@@ -15,7 +16,6 @@ function Login() {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return pattern.test(email);
   };
-
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -27,15 +27,25 @@ function Login() {
       setError("🔐 Password must be exactly 8 characters.");
     } else {
       setError("");
-      login(); // fake login from AuthContext
-      navigate("/"); // redirect to homepage
-      console.log("🔐 Logging in:", email, password);
 
+      const user = {
+        name: email.split("@")[0], // just a simple name from email
+        email: email,
+      };
+
+      login(user); // ✅ fix: pass user to login()
+      navigate("/"); // redirect to home or dashboard
+      console.log("🔐 Logging in:", email, password);
     }
   };
 
   return (
     <div className="login-container">
+      <div
+        className="cipher-bg"
+        style={{ backgroundImage: `url(${bgImg})` }}
+      ></div>
+      <div className="cipher-overlay"></div>
       <div className="login-content">
         <h1 className="login-heading">🛡️ स्वागत है RagaCrypt में</h1>
         <p className="typing-effect">
@@ -70,7 +80,6 @@ function Login() {
           <button type="submit" className="login-button">
             🔓 Login & Enter
           </button>
-          
         </form>
       </div>
     </div>
