@@ -12,6 +12,7 @@ import Profile from "./Pages/Profile";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import RegistrationForm from "./Pages/RegistrationForm";
 // Encryption Techniques
 import CaesarEncrypt from "./EncryptTech/CaeserEncrypt";
 import VigenereEncrypt from "./EncryptTech/VigenereEncrypt";
@@ -31,16 +32,14 @@ import HillDecrypt from "./DecryptTech/HillDecrypt";
 function App() {
   return (
     <>
-     <div>
-      <h1>Registation</h1>
-      <RegistrationForm />
-    </div>
+     
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/registration" element={<RegistrationForm />} />
 
         <Route
           path="/encrypt"
