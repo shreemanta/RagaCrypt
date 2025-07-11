@@ -1,10 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-<<<<<<< HEAD
 import './index.css'
 import RegistrationForm from "./Pages/RegistrationForm";
-=======
-import "./index.css";
->>>>>>> 86a550e0188ad8cab2bf2b146d8d06c263919968
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
