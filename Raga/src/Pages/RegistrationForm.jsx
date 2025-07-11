@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './RegistrationForm.css';
 function RegistrationForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -73,6 +75,7 @@ function RegistrationForm() {
     if (validate()) {
       console.log("Form submitted:", formData);
       alert("Registration successful!");
+      navigate("/login");
     }
   };
 
