@@ -1,10 +1,66 @@
+
+.registration-container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1.5s ease-in;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cipher-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+  animation: zoomIn 20s ease-in-out infinite alternate;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.cipher-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: -1;
+  transition: background 0.5s ease;
+}
+
 .registration-parent {
-  min-height: 90vh;
+  height: auto;
+  width: 50%;
   background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  margin: 2rem;
 }
 
 .registration-box {
@@ -80,3 +136,88 @@
   background-color: #00cfa7;
 }
 
+.gif-box {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slideInLeft 1.5s ease-in-out;
+  padding: 1rem;
+}
+
+.gif-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 198, 0.2);
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.gif-image:hover {
+  transform: scale(1.05);
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Adjust registration-parent for side-by-side layout */
+.registration-parent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 80%;
+  max-width: 1100px;
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 16px;
+}
+.captcha-box {
+  display: flex;
+  align-items: center;  /* Vertically center-aligns checkbox and label */
+  margin-bottom: 1.2rem;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1;  /* Keeps label height tight */
+}
+
+.captcha-box input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  accent-color: #00ffc6;
+  cursor: pointer;
+  vertical-align: middle; /* Ensures alignment on all browsers */
+}
+
+
+.login-link {
+  font-size: 0.95rem;
+  text-align: center;
+  color: #cfcfcf;
+  margin-top: 1rem;
+}
+
+.login-link span {
+  color: #00ffc6;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+  margin-left: 4px;
+}
+
+.login-link span:hover {
+  color: #00cfa7;
+}

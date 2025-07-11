@@ -80,6 +80,10 @@ function Login() {
           <button type="submit" className="login-button">
             🔓 Login & Enter
           </button>
+          <p className="login-link">
+            Don't have an account?{" "}
+            <span onClick={() => navigate("/registration")}>Register</span>
+          </p>
         </form>
       </div>
     </div>
