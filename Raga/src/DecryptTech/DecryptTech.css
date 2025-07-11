@@ -1,0 +1,238 @@
+.cipher-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.cipher-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  z-index: -2;
+}
+
+.cipher-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+.cipher-content {
+  position: relative;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 700px;
+  width: 100%;
+  margin: auto;
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 20px rgba(0, 255, 198, 0.2);
+}
+
+
+.cipher-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cipher-form input, .cipher-form button {
+  padding: 0.8rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.cipher-form input {
+  background-color: #222;
+  color: white;
+}
+
+.cipher-form button {
+  background-color: #00ffc6;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cipher-form button:hover {
+  background-color: #00e6b0;
+}
+
+.output-section {
+  margin-top: 1.5rem;
+}
+
+.output-box {
+  background-color: #222;
+  padding: 1rem;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.explanation {
+  margin-top: 1.5rem;
+}
+
+.explanation code {
+  background: #333;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.next-technique {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.next-link {
+  color: #00ffc6;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.next-link:hover {
+  color: #00e6b0;
+}
+
+
+.cipher-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cipher-form input, .cipher-form button {
+  padding: 0.8rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.cipher-form input {
+  background-color: #222;
+  color: white;
+}
+
+.cipher-form button {
+  background-color: #00ffc6;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cipher-form button:hover {
+  background-color: #00e6b0;
+}
+
+.output-section {
+  margin-top: 1.5rem;
+}
+
+.output-box {
+  background-color: #222;
+  padding: 1rem;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.explanation {
+  margin-top: 1.5rem;
+}
+
+.explanation code {
+  background: #333;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.next-technique {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.next-link {
+  color: #00ffc6;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.next-link:hover {
+  color: #00e6b0;
+}
+/* Background Zoom Animation */
+@keyframes zoomIn {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+/* Fade-in Animation for Content */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animations */
+.cipher-bg {
+  animation: zoomIn 10s ease-in-out infinite alternate;
+  transition: transform 1s ease-in-out;
+}
+
+.cipher-content {
+  animation: fadeInUp 0.8s ease forwards;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Add smooth transition to buttons and inputs */
+.cipher-form input,
+.cipher-form button,
+.matrix-inputs input {
+  transition: all 0.3s ease;
+}
+
+.cipher-form input:focus,
+.matrix-inputs input:focus {
+  outline: 2px solid #00ffc6;
+  background-color: #2a2a2a;
+}
+
+.cipher-form button:hover {
+  background-color: #00e6b0;
+  transform: scale(1.05);
+}
+
+/* Link transition */
+.next-link {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.next-link:hover {
+  color: #fff;
+  transform: translateX(5px);
+}

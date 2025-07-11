@@ -1,28 +1,41 @@
 // src/context/AuthContext.jsx
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // use null to delay route check
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const storedLogin = localStorage.getItem("loggedIn");
-    setIsLoggedIn(storedLogin === "true");
+    const stored = localStorage.getItem("user");
+    if (stored) {
+      try {
+        const user = JSON.parse(stored);
+        setUserData(user);
+        setIsLoggedIn(true);
+      } catch (e) {
+        localStorage.removeItem("user");
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
-
-  const login = () => {
-    localStorage.setItem("loggedIn", "true");
+  const login = (user) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    setUserData(user);
     setIsLoggedIn(true);
   };
 
   const logout = () => {
-    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("user");
+    setUserData(null);
     setIsLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userData, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

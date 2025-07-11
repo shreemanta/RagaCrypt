@@ -48,6 +48,42 @@ import { Link } from "react-router-dom";
 function Home() {
   const cardsRef = useRef([]);
   const [visibleCards, setVisibleCards] = useState([]);
+  useEffect(() => {
+    const slogan = "Explore Cipher, Experience Security";
+    const element = document.getElementById("typewriter");
+    let index = 0;
+    let isDeleting = false;
+
+    const type = () => {
+      if (!element) return;
+
+      // Show substring + blinking cursor
+      element.innerHTML =
+        slogan.substring(0, index) + "<span class='cursor'>|</span>";
+
+      if (!isDeleting) {
+        if (index < slogan.length) {
+          index++;
+          setTimeout(type, 100);
+        } else {
+          // Fully typed, pause before deleting
+          isDeleting = true;
+          setTimeout(type, 1000);
+        }
+      } else {
+        if (index > 0) {
+          index--;
+          setTimeout(type, 50);
+        } else {
+          // Fully deleted, pause before typing again
+          isDeleting = false;
+          setTimeout(type, 500);
+        }
+      }
+    };
+
+    type();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -73,7 +109,8 @@ function Home() {
       <div className="parent">
         <div className="HeadMaster">
           <h1 className="wel">Welcome to रागाCrypt</h1>
-          <div className="typewriter">Explore Cipher, Experience Security</div>
+          <div className="typewriter" id="typewriter"></div>
+
           <div className="gif-container">
             <img
               src="https://media.giphy.com/media/RbDKaczqWovIugyJmW/giphy.gif"

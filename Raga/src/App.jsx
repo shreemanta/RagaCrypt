@@ -1,6 +1,10 @@
 import { Routes, Route } from "react-router-dom";
+<<<<<<< HEAD
 import './index.css'
 import RegistrationForm from "./Pages/RegistrationForm";
+=======
+import "./index.css";
+>>>>>>> 86a550e0188ad8cab2bf2b146d8d06c263919968
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
@@ -12,6 +16,21 @@ import Profile from "./Pages/Profile";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ProtectedRoute from "./Components/ProtectedRoute";
+// Encryption Techniques
+import CaesarEncrypt from "./EncryptTech/CaeserEncrypt";
+import VigenereEncrypt from "./EncryptTech/VigenereEncrypt";
+import RailFenceEncrypt from "./EncryptTech/RailFenceEncrypt";
+import MonoalphabeticEncrypt from "./EncryptTech/MonoAlphabeticEncrypt";
+import PlayfairEncrypt from "./EncryptTech/PlayFairEncrypt";
+import HillEncrypt from "./EncryptTech/HillEncrypt";
+
+// Decryption Techniques
+import CaesarDecrypt from "./DecryptTech/CaesarDecrypt";
+import VigenereDecrypt from "./DecryptTech/VigenereDecrypt";
+import RailFenceDecrypt from "./DecryptTech/RailFenceDecrypt";
+import MonoalphabeticDecrypt from "./DecryptTech/MonoAlphabeticDecrypt";
+import PlayfairDecrypt from "./DecryptTech/PlayfairDecrypt";
+import HillDecrypt from "./DecryptTech/HillDecrypt";
 
 function App() {
   return (
@@ -56,6 +75,105 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/caesar"
+          element={
+            <ProtectedRoute>
+              <CaesarEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/vigenere"
+          element={
+            <ProtectedRoute>
+              <VigenereEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/railfence"
+          element={
+            <ProtectedRoute>
+              <RailFenceEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/monoalphabetic"
+          element={
+            <ProtectedRoute>
+              <MonoalphabeticEncrypt />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/encrypt/playfair"
+          element={
+            <ProtectedRoute>
+              <PlayfairEncrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/encrypt/hill"
+          element={
+            <ProtectedRoute>
+              <HillEncrypt />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/decrypt/caesar"
+          element={
+            <ProtectedRoute>
+              <CaesarDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/vigenere"
+          element={
+            <ProtectedRoute>
+              <VigenereDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/railfence"
+          element={
+            <ProtectedRoute>
+              <RailFenceDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/monoalphabetic"
+          element={
+            <ProtectedRoute>
+              <MonoalphabeticDecrypt />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/decrypt/playfair"
+          element={
+            <ProtectedRoute>
+              <PlayfairDecrypt />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/decrypt/hill"
+          element={
+            <ProtectedRoute>
+              <HillDecrypt />
             </ProtectedRoute>
           }
         />

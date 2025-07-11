@@ -75,6 +75,20 @@ const Encrypt = () => {
                 <Link to="/encrypt/monoalphabetic">Use Monoalphabetic</Link>
               </td>
             </tr>
+            <tr>
+              <td>Playfair</td>
+              <td>A digraph substitution cipher that encrypts pairs of letters using a 5x5 matrix.</td>
+              <td>
+                <Link to="/encrypt/playfair">Use Playfair</Link>
+              </td>
+            </tr>
+            <tr>
+              <td>Hill</td>
+              <td>A polygraphic cipher that encrypts letter blocks using matrix multiplication and modular arithmetic.</td>
+              <td>
+                <Link to="/encrypt/hill">Use Hill</Link>
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>

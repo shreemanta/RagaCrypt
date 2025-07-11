@@ -154,6 +154,29 @@
   margin-bottom: 0.5rem;
 }
 .typewriter {
+  font-size: 2.5rem; /* bigger font size */
+  color: white;
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 0.7s infinite;
+  color: white;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+
+/* .typewriter {
   display: inline-block;
   overflow: hidden;
   border-right: 3px solid #00ffc6;
@@ -173,7 +196,7 @@
 @keyframes blink {
   from, to { border-color: transparent }
   50% { border-color: #00ffc6 }
-}
+} */
 .gif-container {
   margin-top: 1rem;
   text-align: center;

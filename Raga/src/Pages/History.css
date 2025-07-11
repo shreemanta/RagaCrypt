@@ -1,0 +1,78 @@
+.history-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: "Segoe UI", sans-serif;
+  color: #fff;
+  overflow: hidden;
+  background: url('../assets/gif.gif') no-repeat center center/cover;
+}
+
+.history-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Dark overlay */
+  z-index: 0;
+}
+
+.history-title,
+.history-list {
+  position: relative;
+  z-index: 1;
+}
+
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.history-card {
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 1.5rem;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.timestamp {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 0.5rem;
+}
+
+.loading-text {
+  text-align: center;
+  color: #ccc;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
