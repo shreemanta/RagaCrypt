@@ -12,7 +12,6 @@ import Profile from "./Pages/Profile";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import RegistrationForm from "./Pages/RegistrationForm";
 // Encryption Techniques
 import CaesarEncrypt from "./EncryptTech/CaeserEncrypt";
 import VigenereEncrypt from "./EncryptTech/VigenereEncrypt";
