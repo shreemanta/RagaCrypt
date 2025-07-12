@@ -28,25 +28,48 @@ const PlayfairEncrypt = () => {
     return [-1, -1];
   };
 
-  const encryptPlayfair = (text, key) => {
-    const matrix = generateMatrix(key);
-    text = text.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, "");
-    let result = "";
-    for (let i = 0; i < text.length; i += 2) {
-      let a = text[i], b = text[i + 1] || "X";
-      if (a === b) b = "X";
-      const [row1, col1] = findPos(matrix, a);
-      const [row2, col2] = findPos(matrix, b);
-      if (row1 === row2) {
-        result += matrix[row1][(col1 + 1) % 5] + matrix[row2][(col2 + 1) % 5];
-      } else if (col1 === col2) {
-        result += matrix[(row1 + 1) % 5][col1] + matrix[(row2 + 1) % 5][col2];
+  const preprocessText = (text) => {
+  text = text.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, "");
+  let result = "";
+  for (let i = 0; i < text.length; i++) {
+    let a = text[i];
+    let b = text[i + 1];
+    if (a === b) {
+      result += a + "X";
+    } else {
+      if (b) {
+        result += a + b;
+        i++; // Skip next char
       } else {
-        result += matrix[row1][col2] + matrix[row2][col1];
+        result += a + "X";
       }
     }
-    return result;
-  };
+  }
+  return result;
+};
+
+const encryptPlayfair = (text, key) => {
+  const matrix = generateMatrix(key);
+  const digraphs = preprocessText(text);
+  let result = "";
+
+  for (let i = 0; i < digraphs.length; i += 2) {
+    let a = digraphs[i];
+    let b = digraphs[i + 1];
+    const [row1, col1] = findPos(matrix, a);
+    const [row2, col2] = findPos(matrix, b);
+
+    if (row1 === row2) {
+      result += matrix[row1][(col1 + 1) % 5] + matrix[row2][(col2 + 1) % 5];
+    } else if (col1 === col2) {
+      result += matrix[(row1 + 1) % 5][col1] + matrix[(row2 + 1) % 5][col2];
+    } else {
+      result += matrix[row1][col2] + matrix[row2][col1];
+    }
+  }
+
+  return result;
+};
 
   const handleEncrypt = (e) => {
     e.preventDefault();

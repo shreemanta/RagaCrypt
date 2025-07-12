@@ -9,10 +9,31 @@ const MonoalphabeticEncrypt = () => {
   const [output, setOutput] = useState("");
 
   const handleEncrypt = (e) => {
-    e.preventDefault();
-    const result = message.split('').reverse().join('') + " (Simulated)";
-    setOutput(result);
-  };
+  e.preventDefault();
+
+  const normalAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const mappingKey = key.toUpperCase();
+
+  if (mappingKey.length !== 26 || new Set(mappingKey).size !== 26) {
+    setOutput("❌ Invalid key. Please enter a 26-letter unique alphabet.");
+    return;
+  }
+
+  const upperMessage = message.toUpperCase();
+  let encrypted = "";
+
+  for (let char of upperMessage) {
+    const index = normalAlphabet.indexOf(char);
+    if (index !== -1) {
+      encrypted += mappingKey[index];
+    } else {
+      encrypted += char; // keep non-letters (space, punctuation) as-is
+    }
+  }
+
+  setOutput(encrypted);
+};
+
 
   return (
     <div className="cipher-page">
