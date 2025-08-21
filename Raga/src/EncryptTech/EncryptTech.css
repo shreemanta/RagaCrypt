@@ -1,3 +1,4 @@
+/* Base layout */
 .cipher-page {
   position: relative;
   width: 100%;
@@ -8,6 +9,7 @@
   justify-content: center;
 }
 
+/* Background */
 .cipher-bg {
   position: fixed;
   top: 0;
@@ -17,26 +19,50 @@
   background-position: center;
   background-size: cover;
   z-index: -2;
+  animation: zoomIn 10s ease-in-out infinite alternate;
+  transition: transform 1s ease-in-out;
 }
+
 .cipher-overlay {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Black with 0.4 opacity */
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: -1;
 }
 
-.cipher-content {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 700px;
-  width: 100%;
+/* Wrapper layout */
+.cipher-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
   z-index: 2;
-  backdrop-filter: blur(3px);
-  box-shadow: 0 0 20px rgba(0, 255, 198, 0.2);
+  padding: 2rem;
+  transition: all 0.5s ease;
+}
+
+.cipher-content-wrapper.show-output {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Form (left section) */
+.left-section {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2rem;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+  transition: width 0.5s ease;
+}
+
+.cipher-content {
+  animation: fadeInUp 0.8s ease forwards;
+  transition: all 0.3s ease-in-out;
 }
 
 .cipher-form {
@@ -52,6 +78,7 @@
   border: none;
   border-radius: 6px;
   font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .cipher-form input {
@@ -59,27 +86,25 @@
   color: #fff;
 }
 
+.cipher-form input:focus {
+  outline: 2px solid #00ffc6;
+  background-color: #2a2a2a;
+}
+
 .cipher-form button {
   background-color: #00ffc6;
   color: #000;
   font-weight: bold;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.output-section {
-  margin-top: 2rem;
+.cipher-form button:hover {
+  background-color: #00e6b0;
+  transform: scale(1.05);
 }
 
-.output-box {
-  background-color: #111;
-  padding: 1rem;
-  border-radius: 8px;
-  font-family: monospace;
-  font-size: 1.2rem;
-  color: #00ffc6;
-  word-break: break-word;
-}
-
+/* Explanation section */
 .explanation {
   margin-top: 2rem;
 }
@@ -89,6 +114,58 @@
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
 }
+
+/* Output (right section) */
+.right-section {
+  flex: 1;
+  background: #ffffff;
+  color: #000;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 198, 0.2);
+  max-width: 600px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+/* Output box */
+.white-output-box {
+  background-color: #f8f8f8;
+  padding: 1.5rem;
+  border-radius: 8px;
+  color: #111;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Final encrypted message */
+.final-encryption-box {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00b894;
+  background: #1f1f1f;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  margin: 1rem 0;
+  display: inline-block;
+}
+
+/* Step-by-step explanation */
+.step-list {
+  padding-left: 1.2rem;
+  list-style: disc;
+  margin-top: 1rem;
+}
+
+.step-list li {
+  margin-bottom: 1rem;
+  background: #eeeeee;
+  padding: 0.8rem;
+  border-left: 5px solid #00ffc6;
+  border-radius: 5px;
+}
+
+/* Next cipher link */
 .next-technique {
   margin-top: 2rem;
   text-align: right;
@@ -101,20 +178,15 @@
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1rem;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .next-link:hover {
-  color: white;
-}
-.matrix-inputs input {
-  background-color: #1f1f1f;
   color: #fff;
-  padding: 0.5rem;
-  border-radius: 5px;
-  text-align: center;
+  transform: translateX(5px);
 }
-/* Background Zoom Animation */
+
+/* Animations */
 @keyframes zoomIn {
   0% {
     transform: scale(1);
@@ -124,7 +196,6 @@
   }
 }
 
-/* Fade-in Animation for Content */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -136,40 +207,86 @@
   }
 }
 
-/* Apply animations */
-.cipher-bg {
-  animation: zoomIn 10s ease-in-out infinite alternate;
-  transition: transform 1s ease-in-out;
+/* Responsive */
+@media (max-width: 900px) {
+  .cipher-content-wrapper.show-output {
+    flex-direction: column;
+  }
+
+  .right-section {
+    margin-top: 2rem;
+    max-width: 100%;
+  }
+}
+/* Matrix grid (works on dark bg too) */
+.matrix-display {
+  margin-top: 10px;
+  text-align: center;
+}
+.matrix-grid {
+  display: inline-block;
+  border: 2px solid #666666;
+  padding: 10px;
+}
+.matrix-row {
+  display: flex;
+  justify-content: center;
+}
+.matrix-cell {
+  border: 1px solid #666666;
+  padding: 8px 12px;
+  margin: 2px;
+  font-weight: bold;
+  color: #666666;
 }
 
-.cipher-content {
-  animation: fadeInUp 0.8s ease forwards;
-  transition: all 0.3s ease-in-out;
+/* Slide viewer */
+.step-slider {
+  margin-top: 1rem;
+}
+.slide-card {
+  background: #ffffff;
+  color: #111;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+.slide-card h3 {
+  margin-top: 0;
 }
 
-/* Add smooth transition to buttons and inputs */
-.cipher-form input,
-.cipher-form button,
-.matrix-inputs input {
-  transition: all 0.3s ease;
+.slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+.slider-controls button {
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.slider-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.cipher-form input:focus,
-.matrix-inputs input:focus {
-  outline: 2px solid #00ffc6;
-  background-color: #2a2a2a;
+.slider-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 0.6rem;
 }
-
-.cipher-form button:hover {
-  background-color: #00e6b0;
-  transform: scale(1.05);
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #bbb;
+  cursor: pointer;
 }
-
-/* Link transition */
-.next-link {
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-.next-link:hover {
-  color: #fff;
-  transform: translateX(5px);
+.dot.active {
+  background: #00b894;
 }
