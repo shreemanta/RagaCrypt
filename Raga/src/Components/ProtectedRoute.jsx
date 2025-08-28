@@ -3,11 +3,19 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn } = useAuth();
+  const { currentUser, loading } = useAuth();
 
-  if (isLoggedIn === null) return null; // still loading
+  if (loading) {
+    return <p className="text-center mt-10">⏳ Checking session...</p>;
+  }
 
-  return isLoggedIn ? children : <Navigate to="/login" replace />;
+if (currentUser === undefined) {
+  // Show loading spinner or blank until context loads
+  return null;
+}
+
+
+  return children;
 };
 
 export default ProtectedRoute;

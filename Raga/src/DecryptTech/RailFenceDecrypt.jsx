@@ -56,6 +56,7 @@ const RailFenceDecrypt = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setPt(decrypt(ct, parseInt(rails)));
+    
   };
 
   return (

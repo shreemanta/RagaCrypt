@@ -12,30 +12,48 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const validateEmail = (email) => {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return pattern.test(email);
-  };
-  const handleLogin = (e) => {
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
       setError("⚠️ Please fill in both fields.");
-    } else if (!validateEmail(email)) {
+      return;
+    }
+
+    if (!validateEmail(email)) {
       setError("❌ Enter a valid email format.");
-    } else if (password.length !== 8) {
-      setError("🔐 Password must be exactly 8 characters.");
-    } else {
-      setError("");
+      return;
+    }
 
-      const user = {
-        name: email.split("@")[0], // just a simple name from email
-        email: email,
-      };
+    try {
+      const res = await fetch("http://localhost:3001/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      login(user); // ✅ fix: pass user to login()
-      navigate("/"); // redirect to home or dashboard
-      console.log("🔐 Logging in:", email, password);
+      const data = await res.json();
+
+      if (res.ok) {
+        // ✅ Save user + token + expiry (2h handled inside AuthContext)
+        login({
+          id: data.user.id,
+          fullname: data.user.fullname,
+          email: data.user.email,
+          role: data.user.role,
+          token: data.token,
+        });
+
+        navigate("/"); // 🔄 redirect to Home
+        console.log("🔐 Login success:", data);
+      } else {
+        setError("❌ " + (data.error || "Invalid credentials"));
+      }
+    } catch (err) {
+      console.error(err);
+      setError("❌ Server error, try again later.");
     }
   };
 
@@ -52,15 +70,9 @@ function Login() {
           Step into India's own world of digital security...
         </p>
 
-        <img
-          src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmFzdjl4OTE0OTdvMHR5ajRvdHBvdHNndDNsYno1cG4xdXd4MDd6cCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/It8qXjo51Rgek/giphy.gif"
-          alt="Encryption Animation"
-          className="login-gif"
-        />
-
         <form className="login-form" onSubmit={handleLogin}>
           <input
-            type="text"
+            type="email"
             placeholder="📧 Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -69,7 +81,7 @@ function Login() {
 
           <input
             type="password"
-            placeholder="🔒 Password (8 characters)"
+            placeholder="🔒 Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

@@ -202,12 +202,15 @@
   vertical-align: middle; /* Ensures alignment on all browsers */
 }
 
+.link-login{
+  margin-top: 2rem;
+}
 
 .login-link {
   font-size: 0.95rem;
   text-align: center;
   color: #cfcfcf;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .login-link span {
