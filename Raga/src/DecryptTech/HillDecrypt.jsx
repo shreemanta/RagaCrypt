@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../DecryptTech/DecryptTech.css";
 import bgImg from "../assets/bg2.jpg";
+import { Link } from "react-router-dom";
 
 const mod = (n, m) => ((n % m) + m) % m;
 
@@ -250,6 +251,12 @@ const HillDecrypt = () => {
               <p>
                 Hill cipher decryption involves finding the modular inverse of the key matrix, then using matrix multiplication on blocks of ciphertext. The numerical results are mapped back to letters.
               </p>
+            </div>
+            <div className="next-technique">
+              <p>➡️ Ready for the next cipher?</p>
+              <Link to="/decrypt/aes" className="next-link">
+                Try AES Technique →
+              </Link>
             </div>
           </div>
         </div>

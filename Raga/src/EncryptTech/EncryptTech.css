@@ -140,7 +140,7 @@
 
 /* Final encrypted message */
 .final-encryption-box {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #00b894;
   background: #1f1f1f;
@@ -289,4 +289,17 @@
 }
 .dot.active {
   background: #00b894;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #4caf50;
 }

@@ -89,6 +89,20 @@ const Encrypt = () => {
                 <Link to="/encrypt/hill">Use Hill</Link>
               </td>
             </tr>
+            <tr>
+              <td>AES</td>
+              <td>AES (Advanced Encryption Standard) is a symmetric key encryption algorithm that securely transforms data into unreadable ciphertext using substitution and permutation operations.</td>
+              <td>
+                <Link to="/encrypt/aes">Use AES</Link>
+              </td>
+            </tr>
+            <tr>
+              <td>RSA</td>
+              <td>RSA is an asymmetric encryption algorithm that uses a pair of keys—public key for encryption and private key for decryption—to securely transmit data.</td>
+              <td>
+                <Link to="/encrypt/rsa">Use RSA</Link>
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>

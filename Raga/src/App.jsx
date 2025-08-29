@@ -20,7 +20,9 @@ import RailFenceEncrypt from "./EncryptTech/RailFenceEncrypt";
 import MonoalphabeticEncrypt from "./EncryptTech/MonoAlphabeticEncrypt";
 import PlayfairEncrypt from "./EncryptTech/PlayFairEncrypt";
 import HillEncrypt from "./EncryptTech/HillEncrypt";
-
+import AESEncrypt from "./EncryptTech/AESEncrypt";
+import RSAEncrypt from "./EncryptTech/RSAEncryption";
+import ColumnarEncrypt from "./EncryptTech/ColumnarEncrypt";
 // Decryption Techniques
 import CaesarDecrypt from "./DecryptTech/CaesarDecrypt";
 import VigenereDecrypt from "./DecryptTech/VigenereDecrypt";
@@ -28,6 +30,9 @@ import RailFenceDecrypt from "./DecryptTech/RailFenceDecrypt";
 import MonoalphabeticDecrypt from "./DecryptTech/MonoAlphabeticDecrypt";
 import PlayfairDecrypt from "./DecryptTech/PlayfairDecrypt";
 import HillDecrypt from "./DecryptTech/HillDecrypt";
+import AESDecryption from "./DecryptTech/AESDecrypt";
+import RSADecrypt from "./DecryptTech/RSADecrypt";
+import ColumnarDecrypt from "./DecryptTech/ColumnarDecrypt";
 
 function App() {
   return (
@@ -122,7 +127,30 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/encrypt/aes"
+            element={
+              <ProtectedRoute>
+                <AESEncrypt />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/encrypt/rsa"
+            element={
+              <ProtectedRoute>
+                <RSAEncrypt />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/encrypt/columnar"
+            element={
+              <ProtectedRoute>
+                <ColumnarEncrypt />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/decrypt/caesar"
             element={
@@ -172,6 +200,31 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/decrypt/aes"
+            element={
+              <ProtectedRoute>
+                <AESDecryption />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/decrypt/rsa"
+            element={
+              <ProtectedRoute>
+                <RSADecrypt />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/decrypt/columnar"
+            element={
+              <ProtectedRoute>
+                <ColumnarDecrypt />
+              </ProtectedRoute>
+            }
+          />
+
         </Routes>
         <Footer />
       </AuthProvider>

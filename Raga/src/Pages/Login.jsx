@@ -27,6 +27,20 @@ function Login() {
       return;
     }
 
+    // ✅ Check for hardcoded admin credentials
+    if (email === "Admin@gmail.com" && password === "Admin@3105") {
+      // Save admin info in context or localStorage
+      login({
+        id: "admin",
+        fullname: "Admin",
+        email: "Admin@gmail.com",
+        role: "admin",
+        token: "admin-token", // optional placeholder token
+      });
+
+      navigate("/admin"); // redirect to Admin Panel/Profile
+      return;
+    }
     try {
       const res = await fetch("http://localhost:3001/api/auth/login", {
         method: "POST",

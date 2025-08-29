@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import jsPDF from "jspdf";
 import "../EncryptTech/EncryptTech.css";
 import bgImg from "../assets/bg2.jpg";
 
@@ -26,7 +26,9 @@ const MonoalphabeticEncrypt = () => {
       new Set(mappingKey).size !== 26 ||
       /[^A-Z]/.test(mappingKey)
     ) {
-      setOutput("❌ Invalid key. Please enter a 26-letter unique alphabet (A–Z only).");
+      setOutput(
+        "❌ Invalid key. Please enter a 26-letter unique alphabet (A–Z only)."
+      );
       setSteps([]);
       setShowOutput(true);
       setCurrentSlide(0);
@@ -47,28 +49,26 @@ const MonoalphabeticEncrypt = () => {
 
         newSteps.push({
           title: `Step ${i + 1}: '${ch}' → '${mapped}'`,
-          detail: (
-            `We look at the letter "${ch}". In the normal A to Z alphabet, `
-            + `"${ch}" is at position ${idx} (A=0, B=1, ... Z=25). `
-            + `Your secret key says that position ${idx} becomes "${mapped}". `
-            + `So we swap "${ch}" with "${mapped}".`
-          ),
+          detail:
+            `We look at the letter "${ch}". In the normal A to Z alphabet, ` +
+            `"${ch}" is at position ${idx} (A=0, B=1, ... Z=25). ` +
+            `Your secret key says that position ${idx} becomes "${mapped}". ` +
+            `So we swap "${ch}" with "${mapped}".`,
           before: ch,
           after: mapped,
-          reason: `Substitution using your 26-letter key at index ${idx}.`
+          reason: `Substitution using your 26-letter key at index ${idx}.`,
         });
       } else {
         // keep spaces, punctuation, numbers as-is
         encrypted += ch;
         newSteps.push({
           title: `Step ${i + 1}: '${ch}' stays '${ch}'`,
-          detail: (
-            `This character "${ch}" is not a letter (it might be a space or symbol), `
-            + `so we leave it exactly the same.`
-          ),
+          detail:
+            `This character "${ch}" is not a letter (it might be a space or symbol), ` +
+            `so we leave it exactly the same.`,
           before: ch,
           after: ch,
-          reason: "Non-letter characters are not changed."
+          reason: "Non-letter characters are not changed.",
         });
       }
     }
@@ -78,22 +78,137 @@ const MonoalphabeticEncrypt = () => {
     setShowOutput(true);
     setCurrentSlide(0);
   };
+  const handleDownloadPDF = () => {
+    try {
+      const doc = new jsPDF();
+      const pageHeight = doc.internal.pageSize.height;
+      const pageWidth = doc.internal.pageSize.width;
+      const pad = 20;
+      let y = 26;
+      const lineGap = 8;
+      const sectionGap = 14;
+
+      // Helper for body text
+      const write = (txt, size = 11, color = [0, 0, 0]) => {
+        doc.setFontSize(size);
+        doc.setTextColor(...color);
+        const lines = doc.splitTextToSize(txt, pageWidth - pad * 2);
+        lines.forEach((line) => {
+          if (y > pageHeight - 30) {
+            doc.addPage();
+            y = 26;
+          }
+          doc.text(line, pad, y);
+          y += lineGap;
+        });
+      };
+
+      // Helper for section titles
+      const writeSectionTitle = (txt) => {
+        if (y + 12 > pageHeight - 20) {
+          doc.addPage();
+          y = 26;
+        }
+        doc.setFontSize(14);
+        doc.setTextColor(39, 55, 137); // stylish blue
+        doc.text(txt, pad, y);
+        y += sectionGap;
+        doc.setDrawColor(39, 55, 137);
+        doc.setLineWidth(0.5);
+        doc.line(pad, y - 7, pageWidth - pad, y - 7);
+      };
+
+      // -------- HEADER --------
+      doc.setDrawColor(52, 152, 219);
+      doc.setFillColor(240, 248, 255);
+      doc.roundedRect(pad - 5, y - 20, pageWidth - pad * 2 + 10, 20, 3, 3, "F");
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.setTextColor(52, 152, 219);
+      doc.text("Monoalphabetic Cipher — Encryption Report", pad, y - 6);
+      y += 10;
+
+      // -------- INPUT DETAILS --------
+      writeSectionTitle("Input Details");
+      write(`Original Message: ${message.toUpperCase()}`);
+      write(`Mapping Key: ${key.toUpperCase()}`);
+
+      // -------- STEP-BY-STEP --------
+      writeSectionTitle("Step-by-Step Explanation");
+      steps.forEach((step, index) => {
+        const stepText =
+          `${index + 1}. ${step.title}\n` +
+          `   Before: ${step.before} → After: ${step.after}\n` +
+          `   Why: ${step.reason}\n` +
+          `   ${step.detail}`;
+        const wrapped = doc.splitTextToSize(stepText, pageWidth - pad * 2);
+
+        if (y + wrapped.length * 8 > pageHeight - 30) {
+          doc.addPage();
+          y = 26;
+        }
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.setTextColor(52, 73, 94);
+        wrapped.forEach((line) => {
+          doc.text(line, pad, y);
+          y += lineGap;
+        });
+        y += 4; // gap between steps
+      });
+
+      // -------- FINAL RESULT --------
+      writeSectionTitle("Final Encrypted Message");
+      doc.setFont("courier", "bold");
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0);
+      doc.text(output || "—", pad, y + 6);
+      y += 20;
+
+      // -------- FOOTER --------
+      if (y + 16 > pageHeight - 20) {
+        doc.addPage();
+        y = 26;
+      }
+      doc.setFontSize(9);
+      doc.setTextColor(120, 120, 120);
+      doc.text(
+        "Generated by RagaCrypt • Monoalphabetic Cipher Report",
+        pad,
+        pageHeight - 10
+      );
+
+      doc.save("MonoalphabeticCipher.pdf");
+    } catch (err) {
+      console.error(err);
+      alert("PDF generation failed. Check console for details.");
+    }
+  };
 
   const normalAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const mappingKey = key.toUpperCase();
 
   return (
     <div className="cipher-page">
-      <div className="cipher-bg" style={{ backgroundImage: `url(${bgImg})` }}></div>
+      <div
+        className="cipher-bg"
+        style={{ backgroundImage: `url(${bgImg})` }}
+      ></div>
       <div className="cipher-overlay"></div>
 
       {/* WRAPPER to enable left(form) + right(output) layout */}
-      <div className={`cipher-content-wrapper ${showOutput ? "show-output" : ""}`}>
+      <div
+        className={`cipher-content-wrapper ${showOutput ? "show-output" : ""}`}
+      >
         {/* LEFT: original content (unchanged inputs) */}
         <div className="left-section">
           <div className="cipher-content">
             <h1>🔐 Monoalphabetic Cipher Encryption</h1>
-            <p>Replace each letter with a fixed corresponding letter in a shuffled alphabet.</p>
+            <p>
+              Replace each letter with a fixed corresponding letter in a
+              shuffled alphabet.
+            </p>
 
             <form onSubmit={handleEncrypt} className="cipher-form">
               <input
@@ -117,7 +232,8 @@ const MonoalphabeticEncrypt = () => {
             <section className="explanation">
               <h3>📚 How It Works</h3>
               <p>
-                Each letter from the normal alphabet is replaced by a corresponding letter in the key.
+                Each letter from the normal alphabet is replaced by a
+                corresponding letter in the key.
               </p>
               <p>
                 For example:
@@ -128,7 +244,10 @@ const MonoalphabeticEncrypt = () => {
 
             <div className="next-technique">
               <p>➡️ Ready for the next cipher?</p>
-              <Link to="/encrypt/playfair" className="next-link"> Try Playfair Cipher →</Link>
+              <Link to="/encrypt/playfair" className="next-link">
+                {" "}
+                Try Playfair Cipher →
+              </Link>
             </div>
           </div>
         </div>
@@ -139,9 +258,15 @@ const MonoalphabeticEncrypt = () => {
             <h2>🔏 Encrypted Output</h2>
 
             <div className="white-output-box">
-              <p><strong>Original Message:</strong> {message.toUpperCase()}</p>
-              <p><strong>Mapping Key (26 letters):</strong> {mappingKey}</p>
-              <p><strong>Encrypted Message:</strong></p>
+              <p>
+                <strong>Original Message:</strong> {message.toUpperCase()}
+              </p>
+              <p>
+                <strong>Mapping Key (26 letters):</strong> {mappingKey}
+              </p>
+              <p>
+                <strong>Encrypted Message:</strong>
+              </p>
               <div className="final-encryption-box">{output}</div>
 
               {/* Mapping table (normal alphabet vs key) */}
@@ -151,19 +276,24 @@ const MonoalphabeticEncrypt = () => {
                   {/* Row 1: A-Z */}
                   <div className="matrix-row">
                     {normalAlphabet.split("").map((c, i) => (
-                      <div key={`n-${i}`} className="matrix-cell">{c}</div>
+                      <div key={`n-${i}`} className="matrix-cell">
+                        {c}
+                      </div>
                     ))}
                   </div>
                   {/* Row 2: key letters */}
                   <div className="matrix-row">
                     {mappingKey.length === 26
                       ? mappingKey.split("").map((c, i) => (
-                          <div key={`k-${i}`} className="matrix-cell">{c}</div>
+                          <div key={`k-${i}`} className="matrix-cell">
+                            {c}
+                          </div>
                         ))
                       : normalAlphabet.split("").map((_, i) => (
-                          <div key={`k-empty-${i}`} className="matrix-cell">•</div>
-                        ))
-                    }
+                          <div key={`k-empty-${i}`} className="matrix-cell">
+                            •
+                          </div>
+                        ))}
                   </div>
                 </div>
               </div>
@@ -179,13 +309,16 @@ const MonoalphabeticEncrypt = () => {
                       </span>
                     </h3>
                     <p style={{ margin: "0.5rem 0" }}>
-                      <strong>Before:</strong> {steps[currentSlide].before} &nbsp;→&nbsp;
+                      <strong>Before:</strong> {steps[currentSlide].before}{" "}
+                      &nbsp;→&nbsp;
                       <strong>After:</strong> {steps[currentSlide].after}
                     </p>
                     <p style={{ margin: "0.5rem 0" }}>
                       <strong>Why:</strong> {steps[currentSlide].reason}
                     </p>
-                    <p style={{ marginTop: "0.5rem" }}>{steps[currentSlide].detail}</p>
+                    <p style={{ marginTop: "0.5rem" }}>
+                      {steps[currentSlide].detail}
+                    </p>
                   </div>
 
                   <div className="slider-controls">
@@ -198,7 +331,11 @@ const MonoalphabeticEncrypt = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setCurrentSlide((s) => Math.min(steps.length - 1, s + 1))}
+                      onClick={() =>
+                        setCurrentSlide((s) =>
+                          Math.min(steps.length - 1, s + 1)
+                        )
+                      }
                       disabled={currentSlide === steps.length - 1}
                     >
                       Next ▶
@@ -210,7 +347,9 @@ const MonoalphabeticEncrypt = () => {
                       <button
                         key={idx}
                         type="button"
-                        className={`dot ${idx === currentSlide ? "active" : ""}`}
+                        className={`dot ${
+                          idx === currentSlide ? "active" : ""
+                        }`}
                         onClick={() => setCurrentSlide(idx)}
                         aria-label={`Go to step ${idx + 1}`}
                       />
@@ -219,6 +358,9 @@ const MonoalphabeticEncrypt = () => {
                 </div>
               )}
             </div>
+            <button onClick={handleDownloadPDF} className="pdf-btn">
+              📄 Download PDF
+            </button>
           </div>
         )}
       </div>

@@ -74,6 +74,16 @@ const Decrypt = () => {
               <td>Uses the inverse of the key matrix to recover the plaintext from ciphertext.</td>
               <td><Link to="/decrypt/hill">Decrypt Hill</Link></td>
             </tr>
+            <tr>
+              <td>AES</td>
+              <td>AES decryption is the process of converting ciphertext back into readable plaintext using the same symmetric key by reversing AES encryption operations.</td>
+              <td><Link to="/decrypt/aes">Decrypt AES</Link></td>
+            </tr>
+            <tr>
+              <td>RSA</td>
+              <td>RSA decryption is the process of converting ciphertext back to plaintext using the private key corresponding to the public key that was used for encryption.</td>
+              <td><Link to="/decrypt/rsa">Decrypt RSA</Link></td>
+            </tr>
           </tbody>
         </table>
       </section>
