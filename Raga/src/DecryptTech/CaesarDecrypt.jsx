@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "../DecryptTech/DecryptTech.css";
 import caesarBg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 const CaesarDecrypt = () => {
   const [ciphertext, setCiphertext] = useState("");
@@ -12,52 +13,52 @@ const CaesarDecrypt = () => {
   const [finalResult, setFinalResult] = useState("");
 
   const handleDecrypt = (e) => {
-    e.preventDefault();
-    const shiftAmount = parseInt(shift);
-    if (isNaN(shiftAmount)) {
-      setFinalResult("⚠️ Please enter a valid number for shift.");
-      return;
+  e.preventDefault();
+  const shiftAmount = parseInt(shift);
+  if (isNaN(shiftAmount)) {
+    setFinalResult("⚠️ Please enter a valid number for shift.");
+    return;
+  }
+
+  let result = "";
+  let explanationSteps = [];
+  const upperCipher = ciphertext.toUpperCase();
+
+  for (let i = 0; i < upperCipher.length; i++) {
+    const char = upperCipher[i];
+
+    if (char >= "A" && char <= "Z") {
+      const originalPos = char.charCodeAt(0) - 65;
+      const newPos = (originalPos - shiftAmount + 26) % 26;
+      const newChar = String.fromCharCode(newPos + 65);
+      result += newChar;
+
+      explanationSteps.push({
+        id: i + 1,
+        content: `Step ${i + 1}: The letter "${char}" is at position ${originalPos} in the alphabet. We subtract the shift value (${shiftAmount}): ${originalPos} - ${shiftAmount} = ${originalPos - shiftAmount}. After modulo 26: ${newPos}, which is "${newChar}".`,
+      });
+    } else {
+      result += char;
+      explanationSteps.push({
+        id: i + 1,
+        content: `Step ${i + 1}: The character "${char}" is not a letter, so we keep it unchanged.`,
+      });
     }
+  }
 
-    let result = "";
-    let explanationSteps = [];
+  // ✅ Correct saveHistory
+  saveHistory({
+    type: "Caesar Cipher",
+    action: "Decryption",
+    input: ciphertext,
+    key: shift,
+    output: result,
+  });
 
-    const upperCipher = ciphertext.toUpperCase();
+  setFinalResult(result);
+  setSteps(explanationSteps);
+};
 
-    for (let i = 0; i < upperCipher.length; i++) {
-      const char = upperCipher[i];
-
-      if (char >= "A" && char <= "Z") {
-        const originalPos = char.charCodeAt(0) - 65;
-        const newPos = (originalPos - shiftAmount + 26) % 26;
-        const newChar = String.fromCharCode(newPos + 65);
-        result += newChar;
-
-        explanationSteps.push({
-          id: i + 1,
-          content: `Step ${
-            i + 1
-          }: The letter "${char}" is at position ${originalPos} in the alphabet.
-          We subtract the shift value (${shiftAmount}): ${originalPos} - ${shiftAmount} = ${
-            originalPos - shiftAmount
-          }.
-          After taking modulo 26: ((${originalPos} - ${shiftAmount} + 26) % 26 = ${newPos}),
-          we get new position ${newPos}, which is "${newChar}".`,
-        });
-      } else {
-        result += char;
-        explanationSteps.push({
-          id: i + 1,
-          content: `Step ${
-            i + 1
-          }: The character "${char}" is not a letter, so we keep it unchanged.`,
-        });
-      }
-    }
-
-    setFinalResult(result);
-    setSteps(explanationSteps);
-  };
 
   const downloadPDF = (ciphertext, shift, steps, finalResult) => {
     try {
@@ -241,7 +242,7 @@ const CaesarDecrypt = () => {
             <button
               onClick={() => downloadPDF(ciphertext, shift, steps, finalResult)}
             >
-             ⬇ Download PDF
+              ⬇ Download PDF
             </button>
           </div>
         )}

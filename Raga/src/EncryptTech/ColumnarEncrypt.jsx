@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "../EncryptTech/EncryptTech.css";
 import ctBg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 const ColumnarEncrypt = () => {
   const [message, setMessage] = useState("");
@@ -20,42 +21,36 @@ const ColumnarEncrypt = () => {
     const upperMessage = message.replace(/\s+/g, "").toUpperCase();
     const upperKey = key.toUpperCase();
 
-    // Create columns
     const cols = upperKey.length;
     const rows = Math.ceil(upperMessage.length / cols);
-    const matrix = Array.from({ length: rows }, () =>
-      Array(cols).fill("")
-    );
+    const matrix = Array.from({ length: rows }, () => Array(cols).fill(""));
 
-    // Fill matrix row by row
     let idx = 0;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        if (idx < upperMessage.length) {
-          matrix[r][c] = upperMessage[idx];
-          idx++;
-        }
+        if (idx < upperMessage.length) matrix[r][c] = upperMessage[idx++];
       }
     }
 
-    // Step explanation
     const explanationSteps = [
       { id: 1, content: `Message without spaces: ${upperMessage}` },
       { id: 2, content: `Key for column order: ${upperKey}` },
       { id: 3, content: `Message filled in matrix row by row:` },
     ];
-    matrix.forEach((row, i) => {
+    matrix.forEach((row, i) =>
       explanationSteps.push({
         id: explanationSteps.length + 1,
         content: `Row ${i + 1}: ${row.join(" ")}`,
-      });
-    });
+      })
+    );
 
     // Determine column order
-    const sortedKey = upperKey.split("").map((ch, i) => ({ ch, i }));
-    sortedKey.sort((a, b) => (a.ch > b.ch ? 1 : -1));
+    const sortedKey = upperKey
+      .split("")
+      .map((ch, i) => ({ ch, i }))
+      .sort((a, b) => (a.ch > b.ch ? 1 : -1));
 
-    // Read columns in key order
+    // Read columns in sorted key order
     let result = "";
     sortedKey.forEach(({ i }, colIdx) => {
       for (let r = 0; r < rows; r++) {
@@ -63,11 +58,23 @@ const ColumnarEncrypt = () => {
       }
       explanationSteps.push({
         id: explanationSteps.length + 1,
-        content: `Read column ${colIdx + 1} (original index ${i}): adds "${matrix.map(r=>r[i]).join("")}"`,
+        content: `Read column ${
+          colIdx + 1
+        } (original index ${i}): adds "${matrix
+          .map((r) => r[i])
+          .filter((ch) => ch !== "")
+          .join("")}"`,
       });
     });
 
     setFinalResult(result);
+    saveHistory({
+      type: "Column Transposition Cipher",
+      action: "Encryption",
+      input: message,
+      key: key,
+      output: result,
+    });
     setSteps(explanationSteps);
   };
 
@@ -128,10 +135,15 @@ const ColumnarEncrypt = () => {
 
   return (
     <div className="cipher-page">
-      <div className="cipher-bg" style={{ backgroundImage: `url(${ctBg})` }}></div>
+      <div
+        className="cipher-bg"
+        style={{ backgroundImage: `url(${ctBg})` }}
+      ></div>
       <div className="cipher-overlay"></div>
 
-      <div className={`cipher-content-wrapper ${finalResult ? "show-output" : ""}`}>
+      <div
+        className={`cipher-content-wrapper ${finalResult ? "show-output" : ""}`}
+      >
         <div className="left-section">
           <div className="cipher-content">
             <h1>🔐 Columnar Transposition Cipher</h1>
@@ -156,33 +168,36 @@ const ColumnarEncrypt = () => {
             <section className="explanation">
               <h3>📚 How It Works</h3>
               <p>
-                The message is written in rows of length equal to the key. Columns are then read in the alphabetical order of the key letters to form the ciphertext.
+                The message is written in rows of length equal to the key.
+                Columns are then read in the alphabetical order of the key
+                letters to form the ciphertext.
               </p>
             </section>
-
-            <div className="next-technique">
-              <p>➡️ Ready for the next cipher?</p>
-              <Link to="/encrypt/next" className="next-link">
-                Try Next Cipher →
-              </Link>
-            </div>
           </div>
         </div>
 
         {finalResult && (
           <div className="right-section white-output-box">
             <h2>🔏 Encrypted Output</h2>
-            <p><strong>Original Message:</strong> {message}</p>
-            <p><strong>Key:</strong> {key}</p>
+            <p>
+              <strong>Original Message:</strong> {message}
+            </p>
+            <p>
+              <strong>Key:</strong> {key}
+            </p>
 
             <h3>🧠 Step-by-Step Explanation</h3>
             <ul className="step-list">
-              {steps.map(step => <li key={step.id}>{step.content}</li>)}
+              {steps.map((step) => (
+                <li key={step.id}>{step.content}</li>
+              ))}
             </ul>
 
             <h3>✅ Final Encrypted Message:</h3>
             <div className="final-encryption-box">{finalResult}</div>
-            <button onClick={handleDownloadPDF} className="pdf-btn">📄 Download PDF</button>
+            <button onClick={handleDownloadPDF} className="pdf-btn">
+              📄 Download PDF
+            </button>
           </div>
         )}
       </div>

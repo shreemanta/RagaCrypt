@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../DecryptTech/DecryptTech.css";
 import bgImg from "../assets/bg2.jpg";
 import { Link } from "react-router-dom";
+import { saveHistory } from "../utils/saveHistory";
 
 const mod = (n, m) => ((n % m) + m) % m;
 
@@ -86,7 +87,9 @@ const HillDecrypt = () => {
     // basic validation
     if (matrixNums.some(isNaN)) {
       setOutput("⚠️ Invalid key matrix. Please use numbers only.");
-      setSlides([{ type: "error", message: "Invalid key matrix. Use numbers only." }]);
+      setSlides([
+        { type: "error", message: "Invalid key matrix. Use numbers only." },
+      ]);
       setCurrentSlide(0);
       return;
     }
@@ -98,7 +101,12 @@ const HillDecrypt = () => {
 
     if (invDet === null) {
       setOutput("⚠️ Matrix is not invertible mod 26. Choose another key.");
-      setSlides([{ type: "error", message: "Matrix not invertible mod 26. Choose another key." }]);
+      setSlides([
+        {
+          type: "error",
+          message: "Matrix not invertible mod 26. Choose another key.",
+        },
+      ]);
       setCurrentSlide(0);
       return;
     }
@@ -180,6 +188,13 @@ const HillDecrypt = () => {
       title: "Final Decrypted Text",
       fullPlain: finalPlain,
     });
+    saveHistory({
+      type: "Hill Cipher",
+      action: "Decryption",
+      input: cipher,
+      key: keyMatrix.join(","),
+      output: finalPlain,
+    });
 
     setOutput(finalPlain);
     setSlides(slideData);
@@ -188,7 +203,10 @@ const HillDecrypt = () => {
 
   return (
     <div className="cipher-page">
-      <div className="cipher-bg" style={{ backgroundImage: `url(${bgImg})` }}></div>
+      <div
+        className="cipher-bg"
+        style={{ backgroundImage: `url(${bgImg})` }}
+      ></div>
       <div className="cipher-overlay"></div>
 
       <div className="flex-layout">
@@ -196,7 +214,10 @@ const HillDecrypt = () => {
         <div className="left-panel">
           <div className="cipher-content">
             <h1>🔓 Hill Cipher Decryption (2×2 or 3×3)</h1>
-            <p>Enter your ciphertext and key matrix to decrypt the original message.</p>
+            <p>
+              Enter your ciphertext and key matrix to decrypt the original
+              message.
+            </p>
 
             <form onSubmit={handleDecrypt} className="cipher-form">
               <label>
@@ -249,7 +270,9 @@ const HillDecrypt = () => {
             <div className="explanation">
               <h3>📘 How It Works</h3>
               <p>
-                Hill cipher decryption involves finding the modular inverse of the key matrix, then using matrix multiplication on blocks of ciphertext. The numerical results are mapped back to letters.
+                Hill cipher decryption involves finding the modular inverse of
+                the key matrix, then using matrix multiplication on blocks of
+                ciphertext. The numerical results are mapped back to letters.
               </p>
             </div>
             <div className="next-technique">
@@ -277,16 +300,27 @@ const HillDecrypt = () => {
                         {slides[currentSlide].origMat.map((row, i) => (
                           <div key={i} className="matrix-row">
                             {row.map((cell, j) => (
-                              <div key={j} className="matrix-cell">{cell}</div>
+                              <div key={j} className="matrix-cell">
+                                {cell}
+                              </div>
                             ))}
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <p><strong>Determinant (raw):</strong> {slides[currentSlide].detRaw}</p>
-                    <p><strong>Determinant mod 26:</strong> {slides[currentSlide].detMod}</p>
-                    <p><strong>Inverse of determinant mod 26 (invDet):</strong> {slides[currentSlide].invDet}</p>
+                    <p>
+                      <strong>Determinant (raw):</strong>{" "}
+                      {slides[currentSlide].detRaw}
+                    </p>
+                    <p>
+                      <strong>Determinant mod 26:</strong>{" "}
+                      {slides[currentSlide].detMod}
+                    </p>
+                    <p>
+                      <strong>Inverse of determinant mod 26 (invDet):</strong>{" "}
+                      {slides[currentSlide].invDet}
+                    </p>
 
                     <h4>Adjugate (raw)</h4>
                     <div className="matrix-display">
@@ -294,13 +328,17 @@ const HillDecrypt = () => {
                         {(() => {
                           const arr = slides[currentSlide].adjRaw;
                           const size = Math.sqrt(arr.length);
-                          return Array.from({ length: size }, (_, i) =>
+                          return Array.from({ length: size }, (_, i) => (
                             <div key={i} className="matrix-row">
-                              {arr.slice(i*size, i*size + size).map((v, j) =>
-                                <div key={j} className="matrix-cell">{v}</div>
-                              )}
+                              {arr
+                                .slice(i * size, i * size + size)
+                                .map((v, j) => (
+                                  <div key={j} className="matrix-cell">
+                                    {v}
+                                  </div>
+                                ))}
                             </div>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -311,13 +349,17 @@ const HillDecrypt = () => {
                         {(() => {
                           const arr = slides[currentSlide].adjMod;
                           const size = Math.sqrt(arr.length);
-                          return Array.from({ length: size }, (_, i) =>
+                          return Array.from({ length: size }, (_, i) => (
                             <div key={i} className="matrix-row">
-                              {arr.slice(i*size, i*size + size).map((v, j) =>
-                                <div key={j} className="matrix-cell">{v}</div>
-                              )}
+                              {arr
+                                .slice(i * size, i * size + size)
+                                .map((v, j) => (
+                                  <div key={j} className="matrix-cell">
+                                    {v}
+                                  </div>
+                                ))}
                             </div>
-                          );
+                          ));
                         })()}
                       </div>
                     </div>
@@ -328,7 +370,9 @@ const HillDecrypt = () => {
                         {slides[currentSlide].inverseMat.map((row, i) => (
                           <div key={i} className="matrix-row">
                             {row.map((cell, j) => (
-                              <div key={j} className="matrix-cell">{cell}</div>
+                              <div key={j} className="matrix-cell">
+                                {cell}
+                              </div>
                             ))}
                           </div>
                         ))}
@@ -341,21 +385,32 @@ const HillDecrypt = () => {
                   <>
                     <h3>🧠 {slides[currentSlide].title}</h3>
 
-                    <p><strong>Text:</strong> {slides[currentSlide].chunk}</p>
                     <p>
-                      <strong>Vector:</strong>{" "}
-                      [{slides[currentSlide].vector.join(", ")}]
+                      <strong>Text:</strong> {slides[currentSlide].chunk}
+                    </p>
+                    <p>
+                      <strong>Vector:</strong> [
+                      {slides[currentSlide].vector.join(", ")}]
                     </p>
 
                     <h4>Row-wise calculations</h4>
                     {slides[currentSlide].rows.map((r) => (
                       <div key={r.rowIndex} style={{ marginBottom: 8 }}>
-                        <div style={{ fontWeight: "600" }}>Row {r.rowIndex + 1}:</div>
-                        <div style={{ fontFamily: "monospace", whiteSpace: "pre-wrap" }}>
+                        <div style={{ fontWeight: "600" }}>
+                          Row {r.rowIndex + 1}:
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "monospace",
+                            whiteSpace: "pre-wrap",
+                          }}
+                        >
                           {/* build expression like: 15*P(15) + 17*O(14) = 225 + 238 = 463 -> 463 mod 26 = 21 -> V */}
                           {r.products.map((p, i) => (
                             <span key={i}>
-                              {p.num}×{r.vectorValName ? r.vectorValName : ""}{/* placeholder */}{/* we'll render inline below */}
+                              {p.num}×{p.vectorVal}
+                              {/* placeholder */}
+                              {/* we'll render inline below */}
                             </span>
                           ))}
                         </div>
@@ -364,7 +419,11 @@ const HillDecrypt = () => {
                         <div style={{ marginTop: 6 }}>
                           <div>
                             <strong>Multiplications:</strong>{" "}
-                            {r.products.map((p, i) => `${p.num}×${p.vectorVal} = ${p.prod}`).join("  +  ")}
+                            {r.products
+                              .map(
+                                (p, i) => `${p.num}×${p.vectorVal} = ${p.prod}`
+                              )
+                              .join("  +  ")}
                           </div>
                           <div>
                             <strong>Sum:</strong> {r.sum}
@@ -379,7 +438,10 @@ const HillDecrypt = () => {
                       </div>
                     ))}
 
-                    <p style={{ marginTop: 8 }}><strong>Decrypted Text:</strong> {slides[currentSlide].resultStr}</p>
+                    <p style={{ marginTop: 8 }}>
+                      <strong>Decrypted Text:</strong>{" "}
+                      {slides[currentSlide].resultStr}
+                    </p>
                   </>
                 )}
 
@@ -387,7 +449,10 @@ const HillDecrypt = () => {
                   <>
                     <h3>✅ {slides[currentSlide].title}</h3>
                     <div className="slide-card">
-                      <p><strong>Decrypted text:</strong> {slides[currentSlide].fullPlain}</p>
+                      <p>
+                        <strong>Decrypted text:</strong>{" "}
+                        {slides[currentSlide].fullPlain}
+                      </p>
                     </div>
                   </>
                 )}
@@ -409,7 +474,9 @@ const HillDecrypt = () => {
                   Previous
                 </button>
 
-                <span>{currentSlide + 1} / {slides.length}</span>
+                <span>
+                  {currentSlide + 1} / {slides.length}
+                </span>
 
                 <button
                   onClick={() => setCurrentSlide((s) => s + 1)}

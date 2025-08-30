@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "../EncryptTech/EncryptTech.css";
 import bgImg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 const MonoalphabeticEncrypt = () => {
   const [message, setMessage] = useState("");
@@ -72,7 +73,13 @@ const MonoalphabeticEncrypt = () => {
         });
       }
     }
-
+    saveHistory({
+        type: "RailFence Cipher",
+        action: "Encryption",
+        input: message,
+        key: key,
+        output: output,
+      });
     setOutput(encrypted);
     setSteps(newSteps);
     setShowOutput(true);

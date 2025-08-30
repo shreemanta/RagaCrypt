@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "../EncryptTech/EncryptTech.css";
 import aesBg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 function hexToBuffer(hex) {
   return new Uint8Array(hex.match(/.{1,2}/g).map((b) => parseInt(b, 16)));
@@ -59,7 +60,13 @@ const AESDecrypt = () => {
 
       const plaintext = bufferToString(decryptedBuffer);
       setFinalResult(plaintext);
-
+      saveHistory({
+        type: "AES Cipher",
+        action: "Decryption",
+        input: plaintext,
+        key: password,
+        output: cipherText,
+      });
       setSteps([
         { id: 1, content: `Ciphertext converted from Base64 to bytes.` },
         {

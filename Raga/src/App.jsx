@@ -13,6 +13,7 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import AdminPanel from "./Pages/AdminPanel";
 // Encryption Techniques
 import CaesarEncrypt from "./EncryptTech/CaeserEncrypt";
 import VigenereEncrypt from "./EncryptTech/VigenereEncrypt";
@@ -46,6 +47,14 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<RegistrationForm />} />
 
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/encrypt"
             element={
@@ -224,7 +233,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
         </Routes>
         <Footer />
       </AuthProvider>

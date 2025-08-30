@@ -15,61 +15,59 @@ function Login() {
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!email || !password) {
-      setError("⚠️ Please fill in both fields.");
-      return;
-    }
+  if (!email || !password) {
+    setError("⚠️ Please fill in both fields.");
+    return;
+  }
 
-    if (!validateEmail(email)) {
-      setError("❌ Enter a valid email format.");
-      return;
-    }
+  if (!validateEmail(email)) {
+    setError("❌ Enter a valid email format.");
+    return;
+  }
 
-    // ✅ Check for hardcoded admin credentials
-    if (email === "Admin@gmail.com" && password === "Admin@3105") {
-      // Save admin info in context or localStorage
-      login({
-        id: "admin",
-        fullname: "Admin",
-        email: "Admin@gmail.com",
-        role: "admin",
-        token: "admin-token", // optional placeholder token
-      });
+  try {
+    const res = await fetch("http://localhost:3001/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-      navigate("/admin"); // redirect to Admin Panel/Profile
-      return;
-    }
-    try {
-      const res = await fetch("http://localhost:3001/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+    const data = await res.json();
 
-      const data = await res.json();
-
-      if (res.ok) {
-        // ✅ Save user + token + expiry (2h handled inside AuthContext)
-        login({
-          id: data.user.id,
-          fullname: data.user.fullname,
-          email: data.user.email,
-          role: data.user.role,
-          token: data.token,
-        });
-
-        navigate("/"); // 🔄 redirect to Home
-        console.log("🔐 Login success:", data);
-      } else {
-        setError("❌ " + (data.error || "Invalid credentials"));
+    if (res.ok) {
+      // Hardcoded admin check
+      if (email === "Admin@gmail.com" && password === "Admin@3105") {
+        data.user.role = "Admin"; // force role as Admin
       }
-    } catch (err) {
-      console.error(err);
-      setError("❌ Server error, try again later.");
+
+      // Save user + token
+      login({
+        id: data.user.id,
+        fullname: data.user.fullname,
+        email: data.user.email,
+        role: data.user.role,
+        blocked: data.user.blocked,
+        token: data.token,
+      });
+
+      // Redirect based on role
+      if (data.user.role === "Admin") {
+        navigate("/admin"); // Admin panel
+      } else {
+        navigate("/"); // User profile/home
+      }
+    } else {
+      setError("❌ " + (data.error || "Invalid credentials"));
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setError("❌ Server error, try again later.");
+  }
+};
+
+
 
   return (
     <div className="login-container">

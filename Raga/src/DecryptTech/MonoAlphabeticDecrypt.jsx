@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./DecryptTech.css";
 import bgImg from "../assets/bg2.jpg";
 import jsPDF from "jspdf";
+import { saveHistory } from "../utils/saveHistory";
 
 const MonoalphabeticDecrypt = () => {
   const [ct, setCt] = useState("");
@@ -42,7 +43,13 @@ const MonoalphabeticDecrypt = () => {
         decrypted += ch;
       }
     }
-
+    saveHistory({
+      type: "Monoalphabatic Cipher",
+      action: "Decryption",
+      input: ct,
+      key: key,
+      output: decrypted,
+    });
     setPt(decrypted);
     setSteps(explanationSteps);
   };

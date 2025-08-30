@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./DecryptTech.css";
 import bgImg from "../assets/bg2.jpg";
 import jsPDF from "jspdf";
+import { saveHistory } from "../utils/saveHistory";
 
 const RailFenceDecrypt = () => {
   const [ct, setCt] = useState("");
@@ -58,6 +59,13 @@ const RailFenceDecrypt = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setPt(decrypt(ct, parseInt(rails)));
+    saveHistory({
+          type: "Rail fence Cipher",
+          action: "Decryption",
+          input: plaintext,
+          key: password,
+          output: cipherText,
+        });
   };
   const downloadPDF = () => {
     try {

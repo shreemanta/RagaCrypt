@@ -2,9 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
-// ✅ Use consistent named exports
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(undefined); // undefined while loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -19,11 +19,12 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("expiry");
       setCurrentUser(null);
     }
+
+    setLoading(false); // ✅ Done loading
   }, []);
 
   const login = (userData) => {
-    const expiry = new Date(new Date().getTime() + 2 * 60 * 60 * 1000); // 2h
-
+    const expiry = new Date(new Date().getTime() + 60 * 60 * 1000); // 1 hour fixed session
     setCurrentUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("token", userData.token);
@@ -38,11 +39,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ currentUser, login, logout, loading }}>
+      {children} {/* ✅ This is where your app content goes */}
     </AuthContext.Provider>
   );
 };
 
-// ✅ Named export
 export const useAuth = () => useContext(AuthContext);

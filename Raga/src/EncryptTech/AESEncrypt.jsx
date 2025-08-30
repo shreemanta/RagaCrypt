@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "../EncryptTech/EncryptTech.css";
 import aesBg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 function bufferToBase64(buffer) {
   const bytes = new Uint8Array(buffer);
@@ -20,7 +21,9 @@ function generateIV() {
 }
 
 function bufferToHex(buffer) {
-  return Array.from(buffer).map((b) => b.toString(16).padStart(2, "0")).join("");
+  return Array.from(buffer)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 const AESEncrypt = () => {
@@ -68,11 +71,20 @@ const AESEncrypt = () => {
 
       const cipherText = bufferToBase64(encBuffer);
       setFinalResult(cipherText);
-
+      saveHistory({
+        type: "AES Cipher",
+        action: "Encryption",
+        input: plaintext,
+        key: password,
+        output: cipherText,
+      });
       // Step explanation
       setSteps([
         { id: 1, content: `Plaintext converted to bytes.` },
-        { id: 2, content: `Password "${password}" stretched into 256-bit key using PBKDF2.` },
+        {
+          id: 2,
+          content: `Password "${password}" stretched into 256-bit key using PBKDF2.`,
+        },
         { id: 3, content: `Random IV generated: ${bufferToHex(iv)}.` },
         { id: 4, content: `AES-256-CBC encryption applied.` },
         { id: 5, content: `Ciphertext (Base64): ${cipherText}` },
@@ -146,10 +158,15 @@ const AESEncrypt = () => {
 
   return (
     <div className="cipher-page">
-      <div className="cipher-bg" style={{ backgroundImage: `url(${aesBg})` }}></div>
+      <div
+        className="cipher-bg"
+        style={{ backgroundImage: `url(${aesBg})` }}
+      ></div>
       <div className="cipher-overlay"></div>
 
-      <div className={`cipher-content-wrapper ${finalResult ? "show-output" : ""}`}>
+      <div
+        className={`cipher-content-wrapper ${finalResult ? "show-output" : ""}`}
+      >
         <div className="left-section">
           <div className="cipher-content">
             <h1>🔐 AES Encryption</h1>
@@ -174,7 +191,9 @@ const AESEncrypt = () => {
             <section className="explanation">
               <h3>📚 How It Works</h3>
               <p>
-                Plaintext is converted to bytes. Password is stretched into a 256-bit key. AES-CBC encryption is applied with a random IV. Ciphertext is returned in Base64 format.
+                Plaintext is converted to bytes. Password is stretched into a
+                256-bit key. AES-CBC encryption is applied with a random IV.
+                Ciphertext is returned in Base64 format.
               </p>
             </section>
 
@@ -190,13 +209,23 @@ const AESEncrypt = () => {
         {finalResult && (
           <div className="right-section white-output-box">
             <h2>🔏 Encrypted Output</h2>
-            <p><strong>Ciphertext (Base64):</strong> {finalResult}</p>
-            <p><strong>IV (Hex):</strong> {ivHex}</p>
+            <p>
+              <strong>Ciphertext (Base64):</strong> {finalResult}
+            </p>
+            <p>
+              <strong>IV (Hex):</strong> {ivHex}
+            </p>
 
             <h3>🧠 Step-by-Step Explanation</h3>
-            <ul className="step-list">{steps.map(step => <li key={step.id}>{step.content}</li>)}</ul>
+            <ul className="step-list">
+              {steps.map((step) => (
+                <li key={step.id}>{step.content}</li>
+              ))}
+            </ul>
 
-            <button onClick={handleDownloadPDF} className="pdf-btn">📄 Download PDF</button>
+            <button onClick={handleDownloadPDF} className="pdf-btn">
+              📄 Download PDF
+            </button>
           </div>
         )}
       </div>

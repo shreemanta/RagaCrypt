@@ -1,0 +1,148 @@
+/* Full page with background GIF and overlay */
+.admin-panel {
+  position: relative;
+  min-height: 100vh;
+  background-image: url("../assets/gif.gif");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px;
+  box-sizing: border-box;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+/* Content wrapper centered */
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 1200px;
+  background-color: rgba(71, 69, 69, 0.5);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Title */
+.panel-title {
+  text-align: center;
+  color: #14b8a6;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  animation: pulse 2s infinite;
+}
+
+/* Table container */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Users table */
+.users-table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #1f1f1f;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #444;
+  color: #fff;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+/* Table header */
+.users-table th {
+  background-color: #2d2d2d;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+/* Hover effect */
+.users-table tbody tr:hover {
+  background-color: #333;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+}
+
+/* Buttons */
+.block-btn {
+  background-color: #f97316;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-right: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.block-btn:hover {
+  background-color: #ea580c;
+}
+
+.unblock-btn {
+  background-color: #22c55e;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-right: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.unblock-btn:hover {
+  background-color: #16a34a;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* Status text */
+.status-text {
+  text-align: center;
+  color: #ccc;
+  font-size: 1.1rem;
+}
+
+.status-text.error {
+  color: #f87171;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}

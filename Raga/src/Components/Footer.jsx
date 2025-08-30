@@ -29,8 +29,16 @@ function Footer() {
               >
                 <i className="bi bi-linkedin fs-4"></i>
               </a>
-              <a href="mailto:mahiacharya04@email.com" className="text-white">
+              <a href="mailto:mahiacharya04@email.com" className="text-white me-3">
                 <i className="bi bi-envelope-fill fs-4"></i>
+              </a>
+              <a
+                href="https://www.youtube.com/@ChiragBhalodia" // replace # with your YouTube channel link
+                className="text-white me-3"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="bi bi-youtube fs-4"></i>
               </a>
             </div>
 

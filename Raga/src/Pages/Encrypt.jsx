@@ -103,6 +103,13 @@ const Encrypt = () => {
                 <Link to="/encrypt/rsa">Use RSA</Link>
               </td>
             </tr>
+            <tr>
+              <td>Column Transposition cipher</td>
+              <td>Rearranges plaintext letters into columns based on a keyword and reads them column-wise to form ciphertext.</td>
+              <td>
+                <Link to="/encrypt/columnar">Use Column Transposition</Link>
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>

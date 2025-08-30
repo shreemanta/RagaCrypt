@@ -3,6 +3,7 @@ import "../EncryptTech/EncryptTech.css";
 import hillBg from "../assets/bg2.jpg";
 import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
+import { saveHistory } from "../utils/saveHistory";
 
 const mod = (n, m) => ((n % m) + m) % m;
 
@@ -36,6 +37,13 @@ const HillEncrypt = () => {
         </div>,
       ]);
       setShowOutput(true);
+      saveHistory({
+        type: "Hill Cipher",
+        action: "Encryption",
+        input: message,
+        key: shift,
+        output: finalResult,
+      });
       return;
     }
 
@@ -140,171 +148,191 @@ const HillEncrypt = () => {
   };
 
   const downloadPDF = () => {
-  try {
-    const doc = new jsPDF();
-    const pad = 12;            // left margin
-    let y = 16;                // cursor Y
-    const lineGap = 8;
-    const sectionGap = 12;
+    try {
+      const doc = new jsPDF();
+      const pad = 12; // left margin
+      let y = 16; // cursor Y
+      const lineGap = 8;
+      const sectionGap = 12;
 
-    // helpers
-    const write = (txt, size = 11, color = [0,0,0]) => {
-      doc.setFontSize(size);
-      doc.setTextColor(...color);
-      const lines = doc.splitTextToSize(txt, 180);
-      lines.forEach(line => {
-        if (y > 280) { doc.addPage(); y = 16; }
-        doc.text(line, pad, y);
-        y += lineGap;
-      });
-    };
-
-    const writeSectionTitle = (txt) => {
-      if (y + 10 > 285) { doc.addPage(); y = 16; }
-      doc.setFontSize(14);
-      doc.setTextColor(17, 122, 101); // teal
-      doc.text(txt, pad, y);
-      y += sectionGap;
-      doc.setDrawColor(17, 122, 101);
-      doc.setLineWidth(0.5);
-      doc.line(pad, y - 7, 200 - pad, y - 7);
-    };
-
-    const writeTag = (label, value) => {
-      if (y + 8 > 285) { doc.addPage(); y = 16; }
-      doc.setFontSize(11);
-      doc.setTextColor(90, 90, 90);
-      doc.text(`${label}:`, pad, y);
-      doc.setTextColor(0,0,0);
-      doc.text(value, pad + 28, y);
-      y += lineGap;
-    };
-
-    const drawMatrix = (mat) => {
-      const cellW = 18, cellH = 10;
-      const startX = pad, startY = y;
-      doc.setDrawColor(180,180,180);
-      mat.forEach((row, r) => {
-        row.forEach((v, c) => {
-          const x = startX + c*cellW;
-          const yy = startY + r*cellH;
-          doc.roundedRect(x, yy, cellW, cellH, 1, 1);
-          doc.setFontSize(11);
-          doc.setTextColor(0,0,0);
-          doc.text(String(v), x + cellW/2, yy + 7, { align: "center" });
+      // helpers
+      const write = (txt, size = 11, color = [0, 0, 0]) => {
+        doc.setFontSize(size);
+        doc.setTextColor(...color);
+        const lines = doc.splitTextToSize(txt, 180);
+        lines.forEach((line) => {
+          if (y > 280) {
+            doc.addPage();
+            y = 16;
+          }
+          doc.text(line, pad, y);
+          y += lineGap;
         });
-      });
-      y += mat.length * cellH + sectionGap/2;
-    };
+      };
 
-    // --------- build data from current state ----------
-    const size = matrixSize;
-    const cleanMsg = (message || "").toUpperCase().replace(/[^A-Z]/g, "");
-    // key matrix
-    const mat = [];
-    const numericKey = keyMatrix.map(n => Number(n));
-    for (let i = 0; i < size; i++) {
-      mat.push(numericKey.slice(i*size, (i+1)*size));
-    }
-    // blocks
-    const chunks = [];
-    for (let i = 0; i < cleanMsg.length; i += size) {
-      let chunk = cleanMsg.slice(i, i + size);
-      while (chunk.length < size) chunk += "X";
-      chunks.push(chunk);
-    }
+      const writeSectionTitle = (txt) => {
+        if (y + 10 > 285) {
+          doc.addPage();
+          y = 16;
+        }
+        doc.setFontSize(14);
+        doc.setTextColor(17, 122, 101); // teal
+        doc.text(txt, pad, y);
+        y += sectionGap;
+        doc.setDrawColor(17, 122, 101);
+        doc.setLineWidth(0.5);
+        doc.line(pad, y - 7, 200 - pad, y - 7);
+      };
 
-    // --------- document body ----------
-    // Header card
-    doc.setDrawColor(46, 134, 193);
-    doc.setFillColor(240, 248, 255);
-    doc.roundedRect(pad-4, y-8, 200 - 2*pad + 8, 18, 2, 2, "F");
-    doc.setFontSize(16);
-    doc.setTextColor(46, 134, 193);
-    doc.text(" Hill Cipher — Trendy Walkthrough", pad, y + 4);
-    y += 24;
+      const writeTag = (label, value) => {
+        if (y + 8 > 285) {
+          doc.addPage();
+          y = 16;
+        }
+        doc.setFontSize(11);
+        doc.setTextColor(90, 90, 90);
+        doc.text(`${label}:`, pad, y);
+        doc.setTextColor(0, 0, 0);
+        doc.text(value, pad + 28, y);
+        y += lineGap;
+      };
 
-    writeTag("Plaintext", cleanMsg || "(empty)");
-    writeTag("Matrix Size", `${size} × ${size}`);
+      const drawMatrix = (mat) => {
+        const cellW = 18,
+          cellH = 10;
+        const startX = pad,
+          startY = y;
+        doc.setDrawColor(180, 180, 180);
+        mat.forEach((row, r) => {
+          row.forEach((v, c) => {
+            const x = startX + c * cellW;
+            const yy = startY + r * cellH;
+            doc.roundedRect(x, yy, cellW, cellH, 1, 1);
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text(String(v), x + cellW / 2, yy + 7, { align: "center" });
+          });
+        });
+        y += mat.length * cellH + sectionGap / 2;
+      };
 
-    writeSectionTitle(" Key Matrix");
-    drawMatrix(mat);
-
-    writeSectionTitle(" Step 1 — Prepare Message");
-    write("• Uppercase, remove spaces/punctuation.");
-    write("• Pad with X to fit blocks.");
-    writeTag("Blocks", chunks.length ? chunks.join(" | ") : "—");
-
-    writeSectionTitle(" Step 2 — Encrypt Each Block");
-    write("For each block: Vector = letters → numbers (A=0..Z=25).");
-    write("Compute: CipherVector = (Key × Vector) mod 26.");
-    write("Map numbers back to letters to get the encrypted block.");
-
-    const encryptedChunks = [];
-
-    chunks.forEach((group, idx) => {
-      if (y + 40 > 285) { doc.addPage(); y = 16; }
-      doc.setFontSize(12);
-      doc.setTextColor(52, 73, 94);
-      doc.text(`Block ${idx + 1}: ${group}`, pad, y);
-      y += lineGap;
-
-      // vector
-      const v = group.split("").map(ch => ch.charCodeAt(0) - 65);
-      write(`Vector: [${v.join(", ")}]`);
-
-      // multiply
-      const multiplied = mat.map(row =>
-        row.reduce((sum, k, i) => sum + (k * v[i]), 0)
-      );
-      write(`Key × Vector = [${multiplied.join(", ")}]`);
-
-      // mod
-      const modded = multiplied.map(n => mod(n, 26));
-      write(`mod 26 ⇒ [${modded.join(", ")}]`);
-
-      // back to letters
-      const enc = modded.map(n => String.fromCharCode(65 + n)).join("");
-      encryptedChunks.push(enc);
-      write(`Encrypted Block: ${enc}`, 11, [0, 128, 0]);
-
-      // pretty formula lines (trend!)
-      if (size === 2) {
-        const f1 = `${mat[0][0]}*${v[0]} + ${mat[0][1]}*${v[1]}  ≡  ${multiplied[0]}  ≡  ${modded[0]} (mod 26)`;
-        const f2 = `${mat[1][0]}*${v[0]} + ${mat[1][1]}*${v[1]}  ≡  ${multiplied[1]}  ≡  ${modded[1]} (mod 26)`;
-        write(`Formulas:`, 11, [120, 120, 120]);
-        write(`• Row1 · Vec → ${f1}`);
-        write(`• Row2 · Vec → ${f2}`);
-      } else if (size === 3) {
-        const f1 = `${mat[0][0]}*${v[0]} + ${mat[0][1]}*${v[1]} + ${mat[0][2]}*${v[2]}  ≡  ${multiplied[0]}  ≡  ${modded[0]} (mod 26)`;
-        const f2 = `${mat[1][0]}*${v[0]} + ${mat[1][1]}*${v[1]} + ${mat[1][2]}*${v[2]}  ≡  ${multiplied[1]}  ≡  ${modded[1]} (mod 26)`;
-        const f3 = `${mat[2][0]}*${v[0]} + ${mat[2][1]}*${v[1]} + ${mat[2][2]}*${v[2]}  ≡  ${multiplied[2]}  ≡  ${modded[2]} (mod 26)`;
-        write(`Formulas:`, 11, [120, 120, 120]);
-        write(`• Row1 · Vec → ${f1}`);
-        write(`• Row2 · Vec → ${f2}`);
-        write(`• Row3 · Vec → ${f3}`);
+      // --------- build data from current state ----------
+      const size = matrixSize;
+      const cleanMsg = (message || "").toUpperCase().replace(/[^A-Z]/g, "");
+      // key matrix
+      const mat = [];
+      const numericKey = keyMatrix.map((n) => Number(n));
+      for (let i = 0; i < size; i++) {
+        mat.push(numericKey.slice(i * size, (i + 1) * size));
+      }
+      // blocks
+      const chunks = [];
+      for (let i = 0; i < cleanMsg.length; i += size) {
+        let chunk = cleanMsg.slice(i, i + size);
+        while (chunk.length < size) chunk += "X";
+        chunks.push(chunk);
       }
 
-      y += 4; // little breathing space
-    });
+      // --------- document body ----------
+      // Header card
+      doc.setDrawColor(46, 134, 193);
+      doc.setFillColor(240, 248, 255);
+      doc.roundedRect(pad - 4, y - 8, 200 - 2 * pad + 8, 18, 2, 2, "F");
+      doc.setFontSize(16);
+      doc.setTextColor(46, 134, 193);
+      doc.text(" Hill Cipher — Trendy Walkthrough", pad, y + 4);
+      y += 24;
 
-    writeSectionTitle("Final Ciphertext");
-    write(encryptedChunks.join(""), 14, [0, 0, 0]);
+      writeTag("Plaintext", cleanMsg || "(empty)");
+      writeTag("Matrix Size", `${size} × ${size}`);
 
-    // footer
-    if (y + 16 > 285) { doc.addPage(); y = 16; }
-    y = 290;
-    doc.setFontSize(9);
-    doc.setTextColor(120,120,120);
-    doc.text("Generated by RagaCrypt • Hill Cipher (Matrix Crypto Vibes ✨)", pad, 290);
+      writeSectionTitle(" Key Matrix");
+      drawMatrix(mat);
 
-    doc.save("HillCipher.pdf");
-  } catch (err) {
-    console.error(err);
-    alert("PDF generation failed. Check console for details.");
-  }
-};
+      writeSectionTitle(" Step 1 — Prepare Message");
+      write("• Uppercase, remove spaces/punctuation.");
+      write("• Pad with X to fit blocks.");
+      writeTag("Blocks", chunks.length ? chunks.join(" | ") : "—");
 
+      writeSectionTitle(" Step 2 — Encrypt Each Block");
+      write("For each block: Vector = letters → numbers (A=0..Z=25).");
+      write("Compute: CipherVector = (Key × Vector) mod 26.");
+      write("Map numbers back to letters to get the encrypted block.");
+
+      const encryptedChunks = [];
+
+      chunks.forEach((group, idx) => {
+        if (y + 40 > 285) {
+          doc.addPage();
+          y = 16;
+        }
+        doc.setFontSize(12);
+        doc.setTextColor(52, 73, 94);
+        doc.text(`Block ${idx + 1}: ${group}`, pad, y);
+        y += lineGap;
+
+        // vector
+        const v = group.split("").map((ch) => ch.charCodeAt(0) - 65);
+        write(`Vector: [${v.join(", ")}]`);
+
+        // multiply
+        const multiplied = mat.map((row) =>
+          row.reduce((sum, k, i) => sum + k * v[i], 0)
+        );
+        write(`Key × Vector = [${multiplied.join(", ")}]`);
+
+        // mod
+        const modded = multiplied.map((n) => mod(n, 26));
+        write(`mod 26 ⇒ [${modded.join(", ")}]`);
+
+        // back to letters
+        const enc = modded.map((n) => String.fromCharCode(65 + n)).join("");
+        encryptedChunks.push(enc);
+        write(`Encrypted Block: ${enc}`, 11, [0, 128, 0]);
+
+        // pretty formula lines (trend!)
+        if (size === 2) {
+          const f1 = `${mat[0][0]}*${v[0]} + ${mat[0][1]}*${v[1]}  ≡  ${multiplied[0]}  ≡  ${modded[0]} (mod 26)`;
+          const f2 = `${mat[1][0]}*${v[0]} + ${mat[1][1]}*${v[1]}  ≡  ${multiplied[1]}  ≡  ${modded[1]} (mod 26)`;
+          write(`Formulas:`, 11, [120, 120, 120]);
+          write(`• Row1 · Vec → ${f1}`);
+          write(`• Row2 · Vec → ${f2}`);
+        } else if (size === 3) {
+          const f1 = `${mat[0][0]}*${v[0]} + ${mat[0][1]}*${v[1]} + ${mat[0][2]}*${v[2]}  ≡  ${multiplied[0]}  ≡  ${modded[0]} (mod 26)`;
+          const f2 = `${mat[1][0]}*${v[0]} + ${mat[1][1]}*${v[1]} + ${mat[1][2]}*${v[2]}  ≡  ${multiplied[1]}  ≡  ${modded[1]} (mod 26)`;
+          const f3 = `${mat[2][0]}*${v[0]} + ${mat[2][1]}*${v[1]} + ${mat[2][2]}*${v[2]}  ≡  ${multiplied[2]}  ≡  ${modded[2]} (mod 26)`;
+          write(`Formulas:`, 11, [120, 120, 120]);
+          write(`• Row1 · Vec → ${f1}`);
+          write(`• Row2 · Vec → ${f2}`);
+          write(`• Row3 · Vec → ${f3}`);
+        }
+
+        y += 4; // little breathing space
+      });
+
+      writeSectionTitle("Final Ciphertext");
+      write(encryptedChunks.join(""), 14, [0, 0, 0]);
+
+      // footer
+      if (y + 16 > 285) {
+        doc.addPage();
+        y = 16;
+      }
+      y = 290;
+      doc.setFontSize(9);
+      doc.setTextColor(120, 120, 120);
+      doc.text(
+        "Generated by RagaCrypt • Hill Cipher (Matrix Crypto Vibes ✨)",
+        pad,
+        290
+      );
+
+      doc.save("HillCipher.pdf");
+    } catch (err) {
+      console.error(err);
+      alert("PDF generation failed. Check console for details.");
+    }
+  };
 
   // slider controls
   const prev = () => setCurrentSlide((s) => Math.max(0, s - 1));

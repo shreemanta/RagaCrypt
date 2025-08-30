@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf"; // ✅ new line
 import "../EncryptTech/EncryptTech.css";
 import caesarBg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 const CaesarEncrypt = () => {
   const [message, setMessage] = useState("");
@@ -15,6 +16,7 @@ const CaesarEncrypt = () => {
     const shiftAmount = parseInt(shift);
     if (isNaN(shiftAmount)) {
       setFinalResult("⚠️ Please enter a valid number for shift.");
+
       return;
     }
 
@@ -55,7 +57,13 @@ const CaesarEncrypt = () => {
         });
       }
     }
-
+    saveHistory({
+      type: "Caesar Cipher",
+      action: "Encryption",
+      input: message,
+      key: shift,
+      output: result,
+    });
     setFinalResult(result);
     setSteps(explanationSteps);
   };

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./DecryptTech.css";
 import bgImg from "../assets/bg2.jpg";
 import jsPDF from "jspdf";
+import { saveHistory } from "../utils/saveHistory";
 
 const VigenereDecrypt = () => {
   const [ct, setCt] = useState("");
@@ -54,7 +55,13 @@ Wrap with mod 26 → ${pPos}. Convert to letter → "${pChar}".`,
         });
       }
     }
-
+    saveHistory({
+      type: "Playfair Cipher",
+      action: "Decryption",
+      input: ct,
+      key: key,
+      output: result,
+    });
     setPt(result);
     setSteps(explanationSteps);
   };

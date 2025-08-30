@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "../EncryptTech/EncryptTech.css";
 import rsaBg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 // Helper function for modular exponentiation
 const modPow = (base, exponent, modulus) => {
@@ -23,34 +24,46 @@ const RSAEncrypt = () => {
   const [finalResult, setFinalResult] = useState("");
 
   const handleEncrypt = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const eVal = BigInt(publicKey.e);
-    const nVal = BigInt(publicKey.n);
+  const eVal = BigInt(publicKey.e);
+  const nVal = BigInt(publicKey.n);
 
-    if (!eVal || !nVal) {
-      setFinalResult("⚠️ Please enter valid public key values.");
-      return;
-    }
+  if (!eVal || !nVal) {
+    setFinalResult("⚠️ Please enter valid public key values.");
+    return;
+  }
 
-    let encryptedArr = [];
-    let explanationSteps = [];
+  let encryptedArr = [];
+  let explanationSteps = [];
 
-    for (let i = 0; i < message.length; i++) {
-      const charCode = BigInt(message.charCodeAt(i));
-      const encryptedChar = modPow(charCode, eVal, nVal);
-      encryptedArr.push(encryptedChar.toString());
+  for (let i = 0; i < message.length; i++) {
+    const charCode = BigInt(message.charCodeAt(i));
+    const encryptedChar = modPow(charCode, eVal, nVal);
+    encryptedArr.push(encryptedChar.toString());
 
-      explanationSteps.push({
-        id: i + 1,
-        content: `Step ${i + 1}: Character "${message[i]}" has ASCII ${charCode}. ` +
-                 `Encrypted using RSA formula c = m^e mod n: c = ${charCode}^${eVal} mod ${nVal} = ${encryptedChar}`,
-      });
-    }
+    explanationSteps.push({
+      id: i + 1,
+      content:
+        `Step ${i + 1}: Character "${message[i]}" has ASCII ${charCode}. ` +
+        `Encrypted using RSA formula c = m^e mod n: c = ${charCode}^${eVal} mod ${nVal} = ${encryptedChar}`,
+    });
+  }
 
-    setFinalResult(encryptedArr.join(" "));
-    setSteps(explanationSteps);
-  };
+  const cipherResult = encryptedArr.join(" "); // ✅ define it here
+
+  saveHistory({
+    type: "RSA Cipher",
+    action: "Encryption",
+    input: message,
+    key: `(${publicKey.e}, ${publicKey.n})`,
+    output: cipherResult,
+  });
+
+  setFinalResult(cipherResult);
+  setSteps(explanationSteps);
+};
+
 
   const handleDownloadPDF = () => {
     try {
@@ -167,7 +180,8 @@ const RSAEncrypt = () => {
             <h1>🔐 RSA Encryption</h1>
             <p>
               RSA is a public-key encryption method. Each character is encrypted
-              using the formula: c = m^e mod n, where m is the ASCII of the character.
+              using the formula: c = m^e mod n, where m is the ASCII of the
+              character.
             </p>
 
             <form onSubmit={handleEncrypt} className="cipher-form">
@@ -182,14 +196,18 @@ const RSAEncrypt = () => {
                 type="number"
                 placeholder="Enter Public Key e"
                 value={publicKey.e}
-                onChange={(e) => setPublicKey({ ...publicKey, e: e.target.value })}
+                onChange={(e) =>
+                  setPublicKey({ ...publicKey, e: e.target.value })
+                }
                 required
               />
               <input
                 type="number"
                 placeholder="Enter Public Key n"
                 value={publicKey.n}
-                onChange={(e) => setPublicKey({ ...publicKey, n: e.target.value })}
+                onChange={(e) =>
+                  setPublicKey({ ...publicKey, n: e.target.value })
+                }
                 required
               />
               <button type="submit">Encrypt Message</button>
@@ -198,14 +216,16 @@ const RSAEncrypt = () => {
             <section className="explanation">
               <h3>📚 How It Works</h3>
               <p>
-                Each character is converted to its ASCII code and encrypted using the RSA formula. The result is a sequence of numbers that represent the encrypted message.
+                Each character is converted to its ASCII code and encrypted
+                using the RSA formula. The result is a sequence of numbers that
+                represent the encrypted message.
               </p>
             </section>
 
             <div className="next-technique">
               <p>➡️ Ready for the next cipher?</p>
               <Link to="/encrypt/columnar" className="next-link">
-                Try Column Transport Cipher →
+                Try Column Transposition Cipher →
               </Link>
             </div>
           </div>

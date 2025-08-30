@@ -84,6 +84,11 @@ const Decrypt = () => {
               <td>RSA decryption is the process of converting ciphertext back to plaintext using the private key corresponding to the public key that was used for encryption.</td>
               <td><Link to="/decrypt/rsa">Decrypt RSA</Link></td>
             </tr>
+             <tr>
+              <td>Column Transposition cipher</td>
+              <td>Reconstructs the column order using the same keyword and reads row-wise to retrieve the original plaintext.</td>
+              <td><Link to="/decrypt/columnar">Decrypt Column Transposition</Link></td>
+            </tr>
           </tbody>
         </table>
       </section>

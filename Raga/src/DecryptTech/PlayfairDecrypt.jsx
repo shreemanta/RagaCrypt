@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./DecryptTech.css";
 import bgImg from "../assets/bg2.jpg";
 import jsPDF from "jspdf";
+import { saveHistory } from "../utils/saveHistory";
 
 const PlayfairDecrypt = () => {
   const [ct, setCt] = useState("");
@@ -71,7 +72,13 @@ const PlayfairDecrypt = () => {
 
       result += p1 + p2;
     });
-
+    saveHistory({
+      type: "Playfair Cipher",
+      action: "Decryption",
+      input: ct,
+      key: key,
+      output: result,
+    });
     setPt(result);
     setSteps(explanationSteps);
   };

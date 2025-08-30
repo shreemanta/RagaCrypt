@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 import "../EncryptTech/EncryptTech.css";
 import rsaBg from "../assets/bg2.jpg";
+import { saveHistory } from "../utils/saveHistory";
 
 // Helper function for modular exponentiation
 const modPow = (base, exponent, modulus) => {
@@ -43,8 +44,19 @@ const RSADecrypt = () => {
 
       explanationSteps.push({
         id: i + 1,
-        content: `Step ${i + 1}: Cipher "${c}" decrypted using formula m = c^d mod n: m = ${c}^${dVal} mod ${nVal} = ${decryptedCharCode} → Character "${String.fromCharCode(Number(decryptedCharCode))}"`,
+        content: `Step ${
+          i + 1
+        }: Cipher "${c}" decrypted using formula m = c^d mod n: m = ${c}^${dVal} mod ${nVal} = ${decryptedCharCode} → Character "${String.fromCharCode(
+          Number(decryptedCharCode)
+        )}"`,
       });
+    });
+    saveHistory({
+      type: "RSA Cipher",
+      action: "Decryption",
+      input: cipherText,
+      key: `(${privateKey.d}, ${privateKey.n})`,
+      output: decryptedArr.join(" "),
     });
 
     setFinalResult(decryptedArr.join(""));
@@ -165,7 +177,8 @@ const RSADecrypt = () => {
           <div className="cipher-content">
             <h1>🔓 RSA Decryption</h1>
             <p>
-              RSA decryption uses the private key to recover the original message from cipher numbers.
+              RSA decryption uses the private key to recover the original
+              message from cipher numbers.
             </p>
 
             <form onSubmit={handleDecrypt} className="cipher-form">
@@ -180,14 +193,18 @@ const RSADecrypt = () => {
                 type="number"
                 placeholder="Enter Private Key d"
                 value={privateKey.d}
-                onChange={(e) => setPrivateKey({ ...privateKey, d: e.target.value })}
+                onChange={(e) =>
+                  setPrivateKey({ ...privateKey, d: e.target.value })
+                }
                 required
               />
               <input
                 type="number"
                 placeholder="Enter Private Key n"
                 value={privateKey.n}
-                onChange={(e) => setPrivateKey({ ...privateKey, n: e.target.value })}
+                onChange={(e) =>
+                  setPrivateKey({ ...privateKey, n: e.target.value })
+                }
                 required
               />
               <button type="submit">Decrypt Message</button>
@@ -196,15 +213,16 @@ const RSADecrypt = () => {
             <section className="explanation">
               <h3>📚 How It Works</h3>
               <p>
-                Each cipher number is decrypted using the RSA formula: m = c^d mod n.
-                The result is converted back to characters to get the original message.
+                Each cipher number is decrypted using the RSA formula: m = c^d
+                mod n. The result is converted back to characters to get the
+                original message.
               </p>
             </section>
 
             <div className="next-technique">
               <p>➡️ Ready for the next cipher?</p>
               <Link to="/decrypt/columnar" className="next-link">
-                Try Column Transport Cipher →
+                Try Column Transposition Cipher →
               </Link>
             </div>
           </div>
